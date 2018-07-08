@@ -1,0 +1,35 @@
+@import '../styles/_menu.scss';
+
+.haiku-light-menu {
+  display: block;
+  background: rgba(33, 33, 33, 0.7);
+  margin: 0;
+  padding: 0;
+
+  & > li {
+    margin: 0;
+    padding: 0;
+  }
+
+  & > haiku-light-group {
+    display: flex;
+    transition: max-height 0.5s;
+    overflow: hidden;
+  }
+
+  &.collapsed > haiku-light-group {
+    max-height: 0;
+  }
+
+  &.expanded > haiku-light-group {
+    max-height: 40rem;
+  }
+
+  & > li.haiku-light-menu-placeholder {
+    display: flex;
+  }
+}
+
+paper-toggle-button {
+  margin-right: 12px;
+}

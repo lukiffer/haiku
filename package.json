@@ -1,0 +1,30 @@
+{
+  "name": "@haiku-ui/haiku",
+  "version": "0.0.1",
+  "description": "A collection of cards and other web components for the Home Assistant Lovelace UI.",
+  "private": false,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lukiffer/haiku.git"
+  },
+  "author": "Luke Fritz<lukefritz+npm@gmail.com>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/lukiffer/haiku/issues"
+  },
+  "homepage": "https://github.com/lukiffer/haiku#readme",
+  "files": [
+    "haiku/**/*"
+  ],
+  "devDependencies": {
+    "del": "^3.0.0",
+    "gulp": "^3.9.1",
+    "gulp-eslint": "^5.0.0",
+    "gulp-sass": "^4.0.1",
+    "gulp-sass-lint": "^1.4.0",
+    "gulp-util": "^3.0.8",
+    "gulp-watch": "^5.0.0",
+    "node-notifier": "^5.2.1",
+    "through2": "^2.0.3"
+  }
+}

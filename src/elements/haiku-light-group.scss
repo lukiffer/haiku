@@ -1,0 +1,29 @@
+@import '../styles/_menu.scss';
+
+.flex-container {
+  display: flex;
+}
+
+.group-container {
+  width: 100%;
+  border-top: solid 1px rgba(0, 0, 0, 0.2);
+
+  & > ul {
+    transition: max-height 0.5s;
+    overflow: hidden;
+    padding: 0 0 0 10.5%;
+    margin: 0;
+  }
+
+  &.collapsed > ul {
+    max-height: 0;
+  }
+
+  &.expanded > ul {
+    max-height: 40rem;
+  }
+}
+
+paper-toggle-button {
+  margin-right: 12px;
+}

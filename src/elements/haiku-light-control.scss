@@ -1,0 +1,22 @@
+@import '../styles/_menu.scss';
+
+li {
+  display: flex;
+}
+
+.menu-label {
+  font-size: 15px;
+  padding: 8px 0;
+
+  & > ha-icon {
+    height: 20px;
+    margin-top: -3px;
+  }
+}
+
+paper-toggle-button {
+  display: flex;
+  flex: 1 0 0;
+  margin-top: -4px;
+  margin-right: 12px;
+}
