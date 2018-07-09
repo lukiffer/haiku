@@ -43,7 +43,7 @@ export class LightService {
     this.hass.callService('light', service, { 'entity_id': entityIds })
       .then(() => {
         setTimeout(() => {
-          if (callback) {
+          if (callback && typeof callback === 'function') {
             callback();
           }
         }, 2000);

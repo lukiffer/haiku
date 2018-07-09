@@ -8,13 +8,38 @@
 }
 
 .haiku-room-card {
-  background: url('https://mir-s3-cdn-cf.behance.net/project_modules/max_3840/a06fac31446953.5650db6e9de74.jpg') no-repeat center center;
   background-size: auto 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
   height: 30rem;
   overflow-x: hidden;
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
   padding: 1rem 1.5rem;
+
+  &.bedroom {
+    background-image: url('https://mir-s3-cdn-cf.behance.net/project_modules/max_3840/a06fac31446953.5650db6e9de74.jpg');
+  }
+
+  &.bedroom-alternate {
+    background-image: url('https://st.hzcdn.com/simgs/9e1145d707fcf5b3_4-1447/modern-bedroom.jpg');
+  }
+
+  &.recreation {
+    background-image: url('https://designingidea.com/wp-content/uploads/2016/11/large-modern-game-room-with-gray-color-theme.jpg');
+  }
+
+  &.living-room {
+    background-image: url('http://irasuite.com/wp-content/uploads/2017/08/modern-living-room-chairs.jpeg');
+  }
+
+  &.kitchen {
+    background-image: url('https://germankitchencenter.com/images/Nobilia_JGF%20(20).jpg');
+  }
+
+  &.dining-room {
+    background-image: url('https://www.tinydt.net/wp-content/uploads/2018/04/glamorous-at-x-in-modern-dining-room-lighting-fixtures-formal-living-light-lowes-ceiling-lights-home-depot-low-canada-decorating.jpg');
+  }
 }
 
 .haiku-room-card-title {
@@ -28,4 +53,23 @@
   padding: 1.5rem 2rem;
   background: rgba(0, 0, 0, 0.7);
   margin-bottom: 0;
+}
+
+.tiles {
+  display: block;
+
+  & > * {
+    display: block;
+    width: 32%;
+    float: left;
+    margin: 6px 3px 0;
+
+    &:first-child {
+      margin-left: 0;
+    }
+
+    &:nth-child(3n+3) {
+      margin-right: 0;
+    }
+  }
 }
