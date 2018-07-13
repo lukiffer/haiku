@@ -3,11 +3,13 @@ import 'https://unpkg.com/lodash@4.17.10/lodash.js?module';
 import '../elements/haiku-light-menu.js';
 import '../elements/haiku-temperature-tile.js';
 import '../elements/haiku-humidity-tile.js';
+import '../elements/haiku-fan-tile.js';
 
 /**
  * A card that summarizes a rooms entities.
  */
-class HaikuRoomCard extends LitElement {
+export class HaikuRoomCard extends LitElement {
+
   static get properties() {
     return {
       hass: Object,
@@ -17,8 +19,6 @@ class HaikuRoomCard extends LitElement {
 
   _render({ hass, config }) {
     const lightingGroups = this.getLightingGroups(hass, config.groups);
-    const temperatureEntity = this.getSingleEntityByType(hass, config.groups, 'temperature');
-    const humidityEntity = this.getSingleEntityByType(hass, config.groups, 'humidity');
 
     return html`
       {{ css }}
@@ -26,8 +26,9 @@ class HaikuRoomCard extends LitElement {
         <ha-card class$="haiku-room-card ${ config.class }">
           <haiku-light-menu hass="${ hass }" groups="${ lightingGroups }"></haiku-light-menu>
           <div class="tiles">
-            <haiku-temperature-tile hass="${ hass }" entity="${ temperatureEntity }"></haiku-temperature-tile>
-            <haiku-humidity-tile hass="${ hass }" entity="${ humidityEntity }"></haiku-humidity-tile>
+            ${ this.renderTile('temperature') }
+            ${ this.renderTile('humidity') }
+            ${ this.renderTile('fan') }
           </div>
         </ha-card>
         <h1 class="haiku-room-card-title">${ config.name }</h1>
@@ -66,7 +67,30 @@ class HaikuRoomCard extends LitElement {
       return g.type === type;
     })[0];
 
-    return hass.states[group.entity];
+    if (!group) {
+      return undefined;
+    }
+
+    const result = hass.states[group.entity];
+    result.attributes.name = group.name;
+    return result;
+  }
+
+  renderTile(type) {
+    const TILE_GENERATOR_MAP = {
+      'temperature': (entity) => {
+        return html`<haiku-temperature-tile hass="${ this.hass }" entity="${ entity }"></haiku-temperature-tile>`;
+      },
+      'humidity': (entity) => {
+        return html`<haiku-humidity-tile hass="${ this.hass }" entity="${ entity }"></haiku-humidity-tile>`;
+      },
+      'fan': (entity) => {
+        return html`<haiku-fan-tile hass="${ this.hass }" entity="${ entity }"></haiku-fan-tile>`;
+      }
+    };
+
+    const entity = this.getSingleEntityByType(this.hass, this.config.groups, type);
+    return entity ? TILE_GENERATOR_MAP[type](entity) : '';
   }
 
   getCardSize() {

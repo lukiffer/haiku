@@ -18,8 +18,7 @@ export class HaikuLightMenu extends LitElement {
         type: Array,
         observer: 'groupsChanged'
       },
-      collapsed: Boolean,
-      state: String
+      collapsed: Boolean
     };
   }
 

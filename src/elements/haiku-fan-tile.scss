@@ -1,0 +1,28 @@
+@import '../styles/_tiles.scss';
+
+@keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(359deg); }
+}
+
+ha-icon {
+  color: white;
+  width: 52px;
+  height: 52px;
+  margin-left: 16px;
+  margin-top: 3px;
+}
+
+.fan-icon {
+  &.high ha-icon {
+    animation: spin .75s infinite linear;
+  }
+
+  &.medium ha-icon {
+    animation: spin .85s infinite linear;
+  }
+
+  &.low ha-icon {
+    animation: spin 1s infinite linear;
+  }
+}
