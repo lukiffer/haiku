@@ -1,5 +1,4 @@
 import { LitElement, html } from 'https://unpkg.com/@polymer/lit-element@^0.5.2/lit-element.js?module';
-import { repeat } from 'https://unpkg.com/lit-html@0.10.2/lib/repeat.js?module';
 import 'https://unpkg.com/lodash@4.17.10/lodash.js?module';
 import './haiku-light-group.js';
 import { LightService } from '../services/light-service.js';
@@ -14,16 +13,16 @@ export class HaikuLightMenu extends LitElement {
   static get properties() {
     return {
       hass: Object,
-      groups: {
+      entities: {
         type: Array,
-        observer: 'groupsChanged'
+        observer: 'entitiesChanged'
       },
       collapsed: Boolean
     };
   }
 
-  _render({ hass, groups }) {
-    this.groupsChanged(groups);
+  _render({ hass, entities }) {
+    this.entitiesChanged(entities);
     return html`
       {{ css }}
       <ul class$="haiku-light-menu ${ this.collapsed ? 'collapsed' : 'expanded' }">
@@ -38,16 +37,14 @@ export class HaikuLightMenu extends LitElement {
           <paper-toggle-button checked="${ this.state === 'on' }"
             on-change="${(e) => this.toggleChanged(e)}"></paper-toggle-button>
         </li>
-      ${repeat(groups, (g) => g.name, (g) => html`
-        <haiku-light-group hass="${hass}" group="${g}"></haiku-light-group>
-      `)}
+        ${ _.map(entities, (entity) => html`<haiku-light-group hass="${hass}" entity="${entity}"></haiku-light-group>`)}
       </ul>
     `;
   }
 
-  groupsChanged(groups) {
-    this.state = _.some(groups, (group) => {
-      return group.state === 'on';
+  entitiesChanged(entities) {
+    this.state = _.some(entities, (entity) => {
+      return entity.state === 'on';
     }) ? 'on' : 'off';
   }
 
@@ -57,7 +54,7 @@ export class HaikuLightMenu extends LitElement {
 
   toggleChanged() {
     const service = new LightService(this.hass);
-    service.toggleRoom(this.groups, this.state);
+    service.toggleRoom(this.entities, this.state);
   }
 }
 

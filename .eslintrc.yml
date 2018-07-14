@@ -10,7 +10,10 @@ globals:
   customElements: true
 
 rules:
-  indent: [2, 2]
+  indent:
+    - 2
+    - 2
+    - SwitchCase: 1
   brace-style: [2, "stroustrup"]
   comma-style: [1, "last"]
   default-case: 2

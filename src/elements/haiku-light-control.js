@@ -20,10 +20,12 @@ export class HaikuLightControl extends LitElement {
       {{ css }}
       <li>
         <span class="menu-label">
-          <ha-icon icon$="mdi:${ entity.state === 'on' ? 'lightbulb-on' : 'lightbulb' }"></ha-icon>
-          ${ entity.name }
+          <ha-icon icon$="mdi:${entity.state === 'on' ? 'lightbulb-on' : 'lightbulb'}"></ha-icon>
+          <span title$="${entity.attributes.friendly_name}">
+            ${entity.attributes.haiku_label || entity.attributes.friendly_name}
+          </span>
         </span>
-        <paper-toggle-button checked="${ entity.state === 'on' }"
+        <paper-toggle-button checked="${entity.state === 'on'}"
           on-change="${(e) => this.toggleChanged(e)}"></paper-toggle-button>
       </li>
     `;
@@ -31,7 +33,7 @@ export class HaikuLightControl extends LitElement {
 
   toggleChanged() {
     const service = new LightService(this.hass);
-    service.toggle(this.entity.key);
+    service.toggle(this.entity.entity_id);
   }
 }
 
