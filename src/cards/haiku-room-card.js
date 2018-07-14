@@ -53,23 +53,6 @@ export class HaikuRoomCard extends LitElement {
     return states;
   }
 
-  // renderLights() {
-  //   const lights = this.getEntitiesByDomain('light');
-  //   console.log('lights', lights);
-  //   const sensors = this.getEntitiesByDomain('sensor');
-  //   console.log('sensors', sensors);
-  //   console.log(this.config.entities);
-  //   console.log(this.hass);
-  // }
-
-  // renderTemperature(sensors) {
-
-  // }
-
-  // renderHumidity() {
-
-  // }
-
   renderFans() {
     const fans = this.getEntitiesByDomain('fan');
     return html`
@@ -110,60 +93,6 @@ export class HaikuRoomCard extends LitElement {
   renderAirQualitySensor(sensor) {
     return html`<haiku-humidity-tile hass="${ this.hass }" entity="${ sensor }"></haiku-humidity-tile>`;
   }
-
-  // getLightingGroups(hass, groups) {
-  //   return _.map(_.filter(groups, (group) => {
-  //     return group.type === 'lighting';
-  //   }), (group) => {
-  //     const entities = this.getLightingEntities(hass, group.entities);
-  //     return {
-  //       name: group.name,
-  //       entities,
-  //       state: _.some(entities, (entity) => {
-  //         return entity.state === 'on';
-  //       }) ? 'on' : 'off'
-  //     };
-  //   });
-  // }
-
-  // getLightingEntities(hass, entities) {
-  //   return _.map(entities, (entity) => {
-  //     const state = hass.states[entity];
-  //     return {
-  //       key: entity,
-  //       name: state && state.attributes ? state.attributes.friendly_name : entity,
-  //       state: state ? state.state : 'unavailable'
-  //     };
-  //   });
-  // }
-
-  // getSingleEntityByType(hass, groups, type) {
-  //   const group = _.filter(groups, (g) => {
-  //     return g.type === type;
-  //   })[0];
-
-  //   if (!group) {
-  //     return undefined;
-  //   }
-
-  //   const result = hass.states[group.entity];
-  //   result.attributes.name = group.name;
-  //   return result;
-  // }
-
-  // renderTile(type) {
-  //   const TILE_GENERATOR_MAP = {
-  //     'temperature': (entity) => {
-  //       return html`<haiku-temperature-tile hass="${ this.hass }" entity="${ entity }"></haiku-temperature-tile>`;
-  //     },
-  //     'humidity': (entity) => {
-  //       return html`<haiku-humidity-tile hass="${ this.hass }" entity="${ entity }"></haiku-humidity-tile>`;
-  //     }
-  //   };
-
-  //   const entity = this.getSingleEntityByType(this.hass, this.config.groups, type);
-  //   return entity ? TILE_GENERATOR_MAP[type](entity) : '';
-  // }
 
   getCardSize() {
     return 24;
