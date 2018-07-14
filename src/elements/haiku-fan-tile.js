@@ -13,7 +13,7 @@ export class HaikuFanTile extends LitElement {
     return html`
       {{ css }}
       <div class="stat-container">
-        <label>${ entity.attributes.name }</label>
+        <label title$="${ entity.attributes.friendly_name }">${ entity.attributes.haiku_label || 'Fan' }</label>
         <div class$="${ this.getCssClass(entity) }">
           <ha-icon icon$="mdi:${ entity.state === 'on' ? 'fan' : 'fan-off' }"></ha-icon>
         </div>

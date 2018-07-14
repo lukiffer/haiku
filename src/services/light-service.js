@@ -11,32 +11,14 @@ export class LightService {
     this.setState(entityId, service, callback);
   }
 
-  toggleGroup(entities, callback) {
+  toggleRoom(entities, callback) {
     const state = this.getState(entities);
     const service = this.getService(state);
-    const entityIds = [];
     _.each(entities, (entity) => {
       if (this.needsToggle(service, entity)) {
-        entityIds.push(entity.key);
+        this.toggle(entity.entity_id, callback);
       }
     });
-
-    this.setState(entityIds, service, callback);
-  }
-
-  toggleRoom(groups, callback) {
-    const state = this.getState(groups);
-    const service = this.getService(state);
-    const entityIds = [];
-    _.each(groups, (group) => {
-      _.each(group.entities, (entity) => {
-        if (this.needsToggle(service, entity)) {
-          entityIds.push(entity.key);
-        }
-      });
-    });
-
-    this.setState(entityIds, service, callback);
   }
 
   setState(entityIds, service, callback) {
