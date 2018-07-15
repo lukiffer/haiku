@@ -21,7 +21,7 @@ export class HaikuRoomCard extends LitElement {
     return html`
       {{ css }}
       <div class="haiku-card-container">
-        <ha-card class$="haiku-room-card ${ config.class }">
+        <ha-card class$="haiku-room-card ${ config.class || '' }" style$="${this.getCustomBackgroundStyle()}">
           <haiku-light-menu hass="${ hass }" entities="${ this.getEntitiesByDomain('light') }"></haiku-light-menu>
           <div class="tiles">
             ${ this.renderSensors() }
@@ -92,6 +92,15 @@ export class HaikuRoomCard extends LitElement {
 
   renderAirQualitySensor(sensor) {
     return html`<haiku-humidity-tile hass="${ this.hass }" entity="${ sensor }"></haiku-humidity-tile>`;
+  }
+
+  getCustomBackgroundStyle() {
+    if (this.config.background_image) {
+      return `background-image: url("${this.config.background_image}");`;
+    }
+    else {
+      return '';
+    }
   }
 
   getCardSize() {
