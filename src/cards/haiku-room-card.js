@@ -36,14 +36,18 @@ export class HaikuRoomCard extends LitElement {
   getEntitiesByDomain(domain) {
     const states = [];
     _.each(this.config.entities, (key) => {
+      const state = this.hass.states[key];
       const d = key.split('.')[0];
-      if (d === domain) {
-        states.push(this.hass.states[key]);
+      const t = state.attributes.haiku_type;
+      if (d === domain || t === domain) {
+        states.push(state);
       }
       else if (d === 'group') {
-        const state = this.hass.states[key];
         const hasDomainEntities = _.some(state.attributes.entity_id, (entityId) => {
-          return entityId.split('.')[0] === domain;
+          const entityState = this.hass.states[entityId];
+          const entityType = entityState.attributes.haiku_type;
+          const entityDomain = entityId.split('.')[0];
+          return entityDomain === domain || entityDomain === entityType;
         });
         if (hasDomainEntities) {
           states.push(state);

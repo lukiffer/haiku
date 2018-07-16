@@ -22,7 +22,27 @@ export class LightService {
   }
 
   setState(entityIds, service, callback) {
-    this.hass.callService('light', service, { 'entity_id': entityIds })
+    this.callService('light', service, entityIds, callback);
+    this.callService('switch', service, entityIds, callback);
+  }
+
+  callService(domain, service, entityIds, callback) {
+    let filteredEntityIds = null;
+    if (Array.isArray(entityIds)) {
+      filteredEntityIds = _.filter(entityIds, (entityId) => {
+        return entityId.indexOf(`${domain}.`) === 0
+          || entityId.indexOf('group.') === 0;
+      });
+    }
+    else {
+      filteredEntityIds = entityIds;
+    }
+
+    const body = {
+      'entity_id': filteredEntityIds
+    };
+
+    this.hass.callService(domain, service, body)
       .then(() => {
         setTimeout(() => {
           if (callback && typeof callback === 'function') {

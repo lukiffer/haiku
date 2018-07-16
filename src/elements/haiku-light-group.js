@@ -21,7 +21,7 @@ export class HaikuLightGroup extends LitElement {
       {{ css }}
       <li class$="group-container ${ this.collapsed ? 'collapsed' : 'expanded'}">
         <span class="flex-container">
-          <a href="#" class="menu-toggle" on-click="${(e) => this.toggleMenuState$(e)}">
+          <a href="#" class$="menu-toggle ${this.isGroup() ? 'group' : 'entity'}" on-click="${(e) => this.toggleMenuState$(e)}">
             <ha-icon icon$="mdi:${ this.collapsed ? 'chevron-up' : 'chevron-down' }"></ha-icon> 
           </a>
           <a href="#" class="menu-label" on-click="${(e) => this.toggleMenuState$(e)}">
@@ -47,6 +47,10 @@ export class HaikuLightGroup extends LitElement {
   toggleChanged() {
     const service = new LightService(this.hass);
     service.toggle(this.entity.entity_id);
+  }
+
+  isGroup() {
+    return this.entity.entity_id.indexOf('group.') === 0;
   }
 
   renderLightControl(key) {
