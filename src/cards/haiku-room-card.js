@@ -17,6 +17,11 @@ export class HaikuRoomCard extends LitElement {
     };
   }
 
+  setConfig(config) {
+    // TODO: config validation
+    this.config = config;
+  }
+
   _render({ hass, config }) {
     return html`
       {{ css }}
