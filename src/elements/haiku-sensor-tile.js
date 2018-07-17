@@ -52,6 +52,11 @@ export class HaikuSensorTile extends LitElement {
         return `${ Math.round(entity.state) }°`;
       }
     }
+
+    if (isNaN(entity.state)) {
+      return entity.state;
+    }
+
     return Math.round(entity.state).toString();
   }
 
