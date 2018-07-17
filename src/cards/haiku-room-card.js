@@ -1,8 +1,7 @@
 import { LitElement, html } from 'https://unpkg.com/@polymer/lit-element@^0.5.2/lit-element.js?module';
 import 'https://unpkg.com/lodash@4.17.10/lodash.js?module';
 import '../elements/haiku-light-menu.js';
-import '../elements/haiku-temperature-tile.js';
-import '../elements/haiku-humidity-tile.js';
+import '../elements/haiku-sensor-tile.js';
 import '../elements/haiku-fan-tile.js';
 
 /**
@@ -77,30 +76,7 @@ export class HaikuRoomCard extends LitElement {
   }
 
   renderSensor(sensor) {
-    switch (sensor.attributes.unit_of_measurement) {
-      case '°F':
-      case '°C':
-        return this.renderTemperatureSensor(sensor);
-      case '%':
-        return this.renderHumiditySensor(sensor);
-      case 'ppm':
-        return this.renderAirQualitySensor(sensor);
-      default:
-        console.error(`Unknown sensor unit of measurement for sensor "${ sensor.entity_id }"`);
-        return '';
-    }
-  }
-
-  renderTemperatureSensor(sensor) {
-    return html`<haiku-temperature-tile hass="${ this.hass }" entity="${ sensor }"></haiku-temperature-tile>`;
-  }
-
-  renderHumiditySensor(sensor) {
-    return html`<haiku-humidity-tile hass="${ this.hass }" entity="${ sensor }"></haiku-humidity-tile>`;
-  }
-
-  renderAirQualitySensor(sensor) {
-    return html`<haiku-humidity-tile hass="${ this.hass }" entity="${ sensor }"></haiku-humidity-tile>`;
+    return html`<haiku-sensor-tile hass="${ this.hass }" entity="${ sensor }"></haiku-sensor-tile>`;
   }
 
   getCustomBackgroundStyle() {
