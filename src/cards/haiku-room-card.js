@@ -23,6 +23,7 @@ export class HaikuRoomCard extends LitElement {
 
   _render({ hass, config }) {
     return html`
+      <style include="paper-material-styles"></style>
       {{ css }}
       <div class="haiku-card-container">
         <ha-card class$="haiku-room-card ${ config.class || '' }" style$="${this.getCustomBackgroundStyle()}">

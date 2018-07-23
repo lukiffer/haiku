@@ -1,6 +1,7 @@
-import { LitElement, html } from 'https://unpkg.com/@polymer/lit-element@^0.5.2/lit-element.js?module';
+import { html } from 'https://unpkg.com/@polymer/lit-element@^0.5.2/lit-element.js?module';
+import { HaikuTileBase } from './haiku-tile-base.js';
 
-export class HaikuFanTile extends LitElement {
+export class HaikuFanTile extends HaikuTileBase {
 
   static get properties() {
     return {
@@ -12,7 +13,7 @@ export class HaikuFanTile extends LitElement {
   _render({ entity }) {
     return html`
       {{ css }}
-      <div class="stat-container">
+      <div class="stat-container" on-click="${ (e) => this.handleClick(e) }">
         <label title$="${ entity.attributes.friendly_name }">${ entity.attributes.haiku_label || 'Fan' }</label>
         <div class$="${ this.getCssClass(entity) }">
           <ha-icon icon$="mdi:${ entity.state === 'on' ? 'fan' : 'fan-off' }"></ha-icon>

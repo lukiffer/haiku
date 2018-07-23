@@ -6,8 +6,10 @@ env:
   node: true
 
 globals:
+  document: true
   _: true
   customElements: true
+  Event: true
 
 rules:
   indent:
