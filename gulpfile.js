@@ -18,7 +18,7 @@ gulp.task('lint', () => {
 });
 
 gulp.task('build', ['js'], () => {
-  gulp.src(['.tmp/**/*.js'])
+  gulp.src(['.tmp/**/*.js', '.tmp/haiku.css'])
     .pipe(mergeCss())
     .pipe(gulp.dest('haiku'));
 });
@@ -28,8 +28,15 @@ gulp.task('js', ['sass', 'lint'], () => {
     .pipe(gulp.dest('.tmp'));
 });
 
-gulp.task('sass', ['clean:dist'], () => {
-  return gulp.src(['src/**/*.scss'])
+gulp.task('sass', ['sass:global'], () => {
+  return gulp.src(['src/**/*.scss', '!src/styles/global/**/*.scss'])
+    .pipe(sassLint())
+    .pipe(sass().on('error', sass.logError))
+    .pipe(gulp.dest('.tmp'));
+});
+
+gulp.task('sass:global', ['clean:dist'], () => {
+  return gulp.src(['src/styles/global/haiku.scss'])
     .pipe(sassLint())
     .pipe(sass().on('error', sass.logError))
     .pipe(gulp.dest('.tmp'));

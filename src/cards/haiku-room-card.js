@@ -42,6 +42,10 @@ export class HaikuRoomCard extends LitElement {
     const states = [];
     _.each(this.config.entities, (key) => {
       const state = this.hass.states[key];
+      if (!state) {
+        return;
+      }
+
       const d = key.split('.')[0];
       const t = state.attributes.haiku_type;
       if (d === domain || t === domain) {

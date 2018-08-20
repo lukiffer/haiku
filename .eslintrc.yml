@@ -6,10 +6,12 @@ env:
   node: true
 
 globals:
+  window: true
   document: true
-  _: true
-  customElements: true
   Event: true
+  HTMLElement: true
+  customElements: true
+  _: true
 
 rules:
   indent:
