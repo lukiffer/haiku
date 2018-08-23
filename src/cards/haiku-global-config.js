@@ -1,4 +1,3 @@
-import 'https://unpkg.com/lodash@4.17.10/lodash.js?module';
 import { StorageService } from '../services/storage-service.js';
 
 /**

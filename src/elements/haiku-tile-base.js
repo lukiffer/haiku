@@ -1,31 +1,23 @@
 import { LitElement } from 'https://unpkg.com/@polymer/lit-element@^0.5.2/lit-element.js?module';
 import { EventService } from '../services/event-service.js';
-import '../elements/haiku-sensor-settings-dialog.js';
+import './haiku-tile-settings-dialog.js';
 
 export class HaikuTileBase extends LitElement {
   constructor() {
     super();
-    this.dialog = this._findMoreInfoDialog();
+    this.settingsDialog = this._findMoreInfoDialog();
+    this.settingsDialogContent = null;
+    this.handleDialogCancel = (event) => this._handleDialogCancel(event);
+    this.handleCustomizationComplete = (event) => this._handleCustomizationComplete(event);
   }
 
   handleClick(event) {
     event.stopPropagation();
-    const eventService = new EventService();
     if (event.altKey) {
-      this.dialog = this._findMoreInfoDialog();
-      this.dialog.fire('more-info-page', { page: 'haiku_settings' });
-      const sensorSettingsDialog = document.createElement('haiku-sensor-settings-dialog');
-      sensorSettingsDialog.entity = this.entity;
-      this.dialog.shadowRoot.appendChild(sensorSettingsDialog);
-      this.dialog.open();
-      // debugger; // eslint-disable-line no-debugger
-      this.dialog.addEventListener('iron-overlay-canceled', () => {
-        this._handleDialogCancel();
-        this.dialog.removeEventListener(this._handleDialogCancel);
-        this.dialog.removeEventListener('iron-overlay-canceled');
-      });
+      this._openSettingsDialog();
     }
     else {
+      const eventService = new EventService();
       eventService.fire(event.target, 'hass-more-info', {
         entityId: this.entity.entity_id
       });
@@ -38,9 +30,26 @@ export class HaikuTileBase extends LitElement {
     return hassMainEl.shadowRoot.querySelector('ha-more-info-dialog');
   }
 
+  _openSettingsDialog() {
+    this.settingsDialog.fire('more-info-page', { page: 'haiku_settings' });
+    this.settingsDialogContent = document.createElement('haiku-tile-settings-dialog');
+    this.settingsDialogContent.entity = this.entity;
+    this.settingsDialogContent.hass = this.hass;
+    this.settingsDialogContent.addEventListener('haiku-customization-complete', this.handleCustomizationComplete);
+    this.settingsDialog.shadowRoot.appendChild(this.settingsDialogContent);
+    this.settingsDialog.addEventListener('iron-overlay-canceled', this.handleDialogCancel);
+    this.settingsDialog.open();
+  }
+
   _handleDialogCancel() {
-    const el = this.dialog.shadowRoot.querySelector('haiku-sensor-settings-dialog');
-    this.dialog.fire('more-info-page', { page: null });
-    this.dialog.shadowRoot.removeChild(el);
+    const el = this.settingsDialog.shadowRoot.querySelector('haiku-tile-settings-dialog');
+    this.settingsDialog.shadowRoot.removeChild(el);
+    this.settingsDialog.fire('more-info-page', { page: null });
+    this.settingsDialog.removeEventListener('iron-overlay-canceled', this.handleDialogCancel);
+  }
+
+  _handleCustomizationComplete() {
+    this._handleDialogCancel();
+    this.settingsDialog.close();
   }
 }
