@@ -37,8 +37,8 @@ export class HaikuGlobalConfig extends HTMLElement {
     if (!existingCssClasses) {
       document.body.setAttribute('class', theme);
     }
-    else {
-      document.body.setAttribute('class', `${existingCssClasses} haiku-dark`);
+    else if (existingCssClasses.indexOf(theme) === -1) {
+      document.body.setAttribute('class', `${existingCssClasses} ${theme}`);
     }
   }
 

@@ -33,7 +33,6 @@ export class HaikuTileSettingsDialog extends LitElement {
             <paper-item value="co_binary">Carbon Monoxide Status (Binary)</paper-item>
             <paper-item value="air_quality">Air Quality</paper-item>
             <paper-item value="motion_binary">Motion Detected (Binary)</paper-item>
-            <paper-item value="media">Media Player</paper-item>
           </paper-listbox>
         </paper-dropdown-menu>
         <paper-button on-click="${ (e) => this.handleClick(e) }">Save</paper-button>

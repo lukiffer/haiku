@@ -38,14 +38,19 @@ export class HaikuTileBase extends LitElement {
     this.settingsDialogContent.addEventListener('haiku-customization-complete', this.handleCustomizationComplete);
     this.settingsDialog.shadowRoot.appendChild(this.settingsDialogContent);
     this.settingsDialog.addEventListener('iron-overlay-canceled', this.handleDialogCancel);
+    this.settingsDialog.addEventListener('iron-overlay-closed', this.handleDialogCancel);
     this.settingsDialog.open();
   }
 
-  _handleDialogCancel() {
+  _handleDialogCancel(event) {
+    if (event && event.path[0].nodeName !== 'HA-MORE-INFO-DIALOG') {
+      return;
+    }
     const el = this.settingsDialog.shadowRoot.querySelector('haiku-tile-settings-dialog');
     this.settingsDialog.shadowRoot.removeChild(el);
     this.settingsDialog.fire('more-info-page', { page: null });
     this.settingsDialog.removeEventListener('iron-overlay-canceled', this.handleDialogCancel);
+    this.settingsDialog.removeEventListener('iron-overlay-closed', this.handleDialogCancel);
   }
 
   _handleCustomizationComplete() {

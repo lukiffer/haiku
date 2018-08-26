@@ -57,16 +57,13 @@
 
 .tiles {
   display: block;
+  margin: 0 -3px;
 
   & > * {
     display: block;
     width: 32%;
     float: left;
     margin: 6px 3px 0;
-
-    &:first-child {
-      margin-left: 0;
-    }
 
     &:nth-child(3n+3) {
       margin-right: 0;

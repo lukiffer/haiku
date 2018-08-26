@@ -18,14 +18,83 @@ export class HaikuSensorTile extends HaikuTileBase {
     return html`
       {{ css }}
       <div class="stat-container" on-click="${ (e) => this.handleClick(e) }">
-        <label>${ this.getTitle(entity) }</label>
-        <span class="stat-value" title$="${ this.getLongValue(entity) }">
-          ${ this.getShortValue(entity) }
-          <span class="unit">
-            ${ this.getUnit(entity) }
-          </span>
-        </span>
+        ${ this.renderSensorContent(entity) }
       </div>
+    `;
+  }
+
+  renderSensorContent(entity) {
+    let sensorType = 'default';
+
+    if (entity && entity.attributes && entity.attributes.haiku_type) {
+      sensorType = entity.attributes.haiku_type;
+    }
+
+    switch (sensorType) {
+      case 'smoke_binary':
+        return this.renderSmokeSensorContent(entity);
+      case 'co_binary':
+        return this.renderCarbonMonoxideSensorContent(entity);
+      case 'air_quality':
+        return this.renderAirQualitySensorContent(entity);
+      case 'motion_binary':
+        return this.renderMotionSensorContent(entity);
+      case 'temperature':
+      case 'humidity':
+      case 'default':
+      default:
+        return this.renderDefaultSensorContent(entity);
+    }
+  }
+
+  renderSmokeSensorContent(entity) {
+    return html`
+      <div class="status-container">
+        <div class="status-value">
+          <span>Smoke</span>
+          <label>${ this.getShortValue(entity) }</label>
+        </div>
+      </div>
+    `;
+  }
+
+  renderCarbonMonoxideSensorContent(entity) {
+    return html`
+      <div class="status-container">
+        <div class="status-value">
+          <span class="multiline">Carbon<br />Monoxide</span>
+          <label>${ this.getShortValue(entity) }</label>
+        </div>
+      </div>
+    `;
+  }
+
+  renderAirQualitySensorContent(entity) {
+    return html`
+      <div class="status-container">
+        <div class="status-value">
+          <span class="multiline">Air<br />Quality</span>
+          <label>${ this.getShortValue(entity) }</label>
+        </div>
+      </div>
+    `;
+  }
+
+  renderMotionSensorContent(entity) {
+    return html`
+      <label>Motion Sensor</label>
+    `;
+  }
+
+  renderDefaultSensorContent(entity) {
+    return html`
+      <label>${ this.getTitle(entity) }</label>
+      <span class="stat-value" title$="${ this.getLongValue(entity) }">
+        ${ this.getShortValue(entity) }
+        <span class="unit">
+          ${ this.getUnit(entity) }
+        </span>
+      </span>
     `;
   }
 
