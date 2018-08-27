@@ -17,7 +17,7 @@ export class HaikuSensorTile extends HaikuTileBase {
   _render({ entity }) {
     return html`
       {{ css }}
-      <div class="stat-container" on-click="${ (e) => this.handleClick(e) }">
+      <div class="stat-container" title$="${ this.getName(entity) }" on-click="${ (e) => this.handleClick(e) }">
         ${ this.renderSensorContent(entity) }
       </div>
     `;
@@ -50,7 +50,7 @@ export class HaikuSensorTile extends HaikuTileBase {
   renderSmokeSensorContent(entity) {
     return html`
       <div class="status-container">
-        <div class="status-value">
+        <div class$="status-value ${ this.getStatusClass(entity.state) }">
           <span>Smoke</span>
           <label>${ this.getShortValue(entity) }</label>
         </div>
@@ -61,7 +61,7 @@ export class HaikuSensorTile extends HaikuTileBase {
   renderCarbonMonoxideSensorContent(entity) {
     return html`
       <div class="status-container">
-        <div class="status-value">
+        <div class$="status-value ${ this.getStatusClass(entity.state) }">
           <span class="multiline">Carbon<br />Monoxide</span>
           <label>${ this.getShortValue(entity) }</label>
         </div>
@@ -83,6 +83,7 @@ export class HaikuSensorTile extends HaikuTileBase {
   renderMotionSensorContent(entity) {
     return html`
       <label>Motion Sensor</label>
+      <span>${ entity }</span>
     `;
   }
 
@@ -150,6 +151,41 @@ export class HaikuSensorTile extends HaikuTileBase {
 
   _hasUnit(entity) {
     return entity.attributes && entity.attributes.unit_of_measurement;
+  }
+
+  getStatusClass(state) {
+    const NORMAL_STATES = [
+      'ok'
+    ];
+
+    const WARNING_STATES = [
+      'warning'
+    ];
+
+    const CRITICAL_STATES = [
+      'emergency'
+    ];
+    if (NORMAL_STATES.includes(state.toLowerCase())) {
+      return 'status-normal';
+    }
+
+    if (WARNING_STATES.includes(state.toLowerCase())) {
+      return 'status-warning';
+    }
+
+    if (CRITICAL_STATES.includes(state.toLowerCase())) {
+      return 'status-critical';
+    }
+
+    return 'status-unknown';
+  }
+
+  getName(entity) {
+    if (entity.attributes && entity.attributes.friendly_name) {
+      return entity.attributes.friendly_name;
+    }
+
+    return entity.entity_id;
   }
 }
 

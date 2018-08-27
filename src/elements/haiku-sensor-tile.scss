@@ -5,7 +5,7 @@
 }
 
 .status-value {
-  border: solid 4px #bada55;
+  border: solid 4px #ccc;
   width: 80px;
   height: 80px;
   border-radius: 50%;
@@ -13,6 +13,18 @@
   margin: 0 auto;
   text-align: center;
   color: #fff;
+
+  &.status-normal {
+    border-color: #bada55;
+  }
+
+  &.status-warning {
+    border-color: #ffc800;
+  }
+
+  &.status-critical {
+    border-color: #d20c0c;
+  }
 
   & > ha-icon {
     font-size: 24px;

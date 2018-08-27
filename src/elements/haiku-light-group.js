@@ -1,11 +1,14 @@
 import { LitElement, html } from 'https://unpkg.com/@polymer/lit-element@^0.5.2/lit-element.js?module';
-import './haiku-light-control.js';
 import { LightService } from '../services/light-service.js';
+import { CustomizationService } from '../services/customization-service.js';
+import './haiku-light-control.js';
+import './haiku-settings-dialog.js';
 
 export class HaikuLightGroup extends LitElement {
   constructor() {
     super();
     this.collapsed = true;
+    this.customizationService = new CustomizationService();
   }
 
   static get properties() {
@@ -21,10 +24,10 @@ export class HaikuLightGroup extends LitElement {
       {{ css }}
       <li class$="group-container ${ this.collapsed ? 'collapsed' : 'expanded'}">
         <span class="flex-container">
-          <a href="#" class$="menu-toggle ${this.isGroup() ? 'group' : 'entity'}" on-click="${(e) => this.toggleMenuState$(e)}">
+          <a href="#" class$="menu-toggle ${this.isGroup() ? 'group' : 'entity'}" on-click="${(e) => this.toggleMenuState(e)}">
             <ha-icon icon$="mdi:${ this.collapsed ? 'chevron-up' : 'chevron-down' }"></ha-icon> 
           </a>
-          <a href="#" class="menu-label" on-click="${(e) => this.toggleMenuState$(e)}">
+          <a href="javascript:void(0);" class="menu-label" on-click="${(e) => this.handleClick(e)}">
             <ha-icon icon$="mdi:${ entity.state === 'on' ? 'lightbulb-on' : 'lightbulb' }"></ha-icon>
             <span title$="${ entity.attributes.friendly_name }">
               ${ entity.attributes.haiku_label || entity.attributes.friendly_name }
@@ -40,7 +43,17 @@ export class HaikuLightGroup extends LitElement {
     `;
   }
 
-  toggleMenuState$() {
+  handleClick(event) {
+    event.stopPropagation();
+    if (event.altKey) {
+      this.customizationService.openSettingsDialog(this.hass, this.entity);
+    }
+    else {
+      this.toggleMenuState();
+    }
+  }
+
+  toggleMenuState() {
     this.collapsed = !this.collapsed;
   }
 

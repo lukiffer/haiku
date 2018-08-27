@@ -2,7 +2,7 @@ import { html, LitElement } from 'https://unpkg.com/@polymer/lit-element@^0.5.2/
 import { EventService } from '../services/event-service.js';
 import 'https://unpkg.com/lodash@4.17.10/lodash.js?module';
 
-export class HaikuTileSettingsDialog extends LitElement {
+export class HaikuSettingsDialog extends LitElement {
 
   constructor() {
     super();
@@ -20,13 +20,14 @@ export class HaikuTileSettingsDialog extends LitElement {
       {{ css }}
       <app-toolbar>
         <paper-icon-button icon="hass:close" dialog-dismiss=""></paper-icon-button>
-        <div main-title="">Tile Settings</div>
+        <div main-title="">Haiku Customization</div>
       </app-toolbar>
 
       <div class="form">
         <paper-input id="label" value$="${ entity.attributes.haiku_label }" label="Label"></paper-input>
-        <paper-dropdown-menu id="type" label="Tile Type">
+        <paper-dropdown-menu id="type" label="Entity Type">
           <paper-listbox slot="dropdown-content" attr-for-selected="value" selected$="${ entity.attributes.haiku_type }">
+            <paper-item value="light">Light</paper-item>
             <paper-item value="temperature">Temperature</paper-item>
             <paper-item value="humidity">Humidity</paper-item>
             <paper-item value="smoke_binary">Smoke Status (Binary)</paper-item>
@@ -66,4 +67,4 @@ export class HaikuTileSettingsDialog extends LitElement {
   }
 }
 
-customElements.define('haiku-tile-settings-dialog', HaikuTileSettingsDialog);
+customElements.define('haiku-settings-dialog', HaikuSettingsDialog);
