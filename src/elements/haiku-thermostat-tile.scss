@@ -1,0 +1,29 @@
+@import '../styles/_tiles.scss';
+
+.status-container {
+  padding: 12px 0;
+}
+
+.status-value {
+  cursor: pointer;
+
+  & > * {
+    cursor: pointer;
+  }
+
+  &.cool.on {
+    border-color: #00c6fb;
+    // background-image: linear-gradient(to top, #00c6fb 0%, #005bea 100%);
+  }
+
+  &.heat.on {
+    border-color: #ff5858;
+    // background-image: linear-gradient(-60deg, #ff5858 0%, #f09819 100%);
+  }
+
+  & .unit {
+    font-size: 15px;
+    margin-left: -15px;
+    color: #999;
+  }
+}

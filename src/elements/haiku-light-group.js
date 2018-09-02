@@ -8,7 +8,7 @@ export class HaikuLightGroup extends LitElement {
   constructor() {
     super();
     this.collapsed = true;
-    this.customizationService = new CustomizationService();
+    this.customizationService = new CustomizationService(this);
   }
 
   static get properties() {

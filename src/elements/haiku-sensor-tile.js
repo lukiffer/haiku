@@ -179,14 +179,6 @@ export class HaikuSensorTile extends HaikuTileBase {
 
     return 'status-unknown';
   }
-
-  getName(entity) {
-    if (entity.attributes && entity.attributes.friendly_name) {
-      return entity.attributes.friendly_name;
-    }
-
-    return entity.entity_id;
-  }
 }
 
 customElements.define('haiku-sensor-tile', HaikuSensorTile);

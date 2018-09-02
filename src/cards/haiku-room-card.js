@@ -3,6 +3,7 @@ import 'https://unpkg.com/lodash@4.17.10/lodash.js?module';
 import '../elements/haiku-light-menu.js';
 import '../elements/haiku-sensor-tile.js';
 import '../elements/haiku-fan-tile.js';
+import '../elements/haiku-thermostat-tile.js';
 
 /**
  * A card that summarizes a rooms entities.
@@ -29,6 +30,7 @@ export class HaikuRoomCard extends LitElement {
         <ha-card class$="haiku-room-card ${ config.class || '' }" style$="${this.getCustomBackgroundStyle()}">
           <haiku-light-menu hass="${ hass }" entities="${ this.getEntitiesByDomain('light') }"></haiku-light-menu>
           <div class="tiles">
+            ${ this.renderThermostats() }
             ${ this.renderSensors() }
             ${ this.renderFans() }
           </div>
@@ -73,6 +75,17 @@ export class HaikuRoomCard extends LitElement {
     `;
   }
 
+  renderThermostats() {
+    const thermostats = this.getEntitiesByDomain('climate');
+    return html`
+      ${_.map(thermostats, (thermostat) => this.renderThermostat(thermostat))}
+    `;
+  }
+
+  renderThermostat(thermostat) {
+    return html`<haiku-thermostat-tile hass="${ this.hass }" entity="${ thermostat }"></haiku-thermostat-tile>`;
+  }
+
   renderSensors() {
     const sensors = this.getEntitiesByDomain('sensor');
     return html`
@@ -86,7 +99,7 @@ export class HaikuRoomCard extends LitElement {
 
   getCustomBackgroundStyle() {
     if (this.config.background_image) {
-      return `background-image: url("${this.config.background_image}");`;
+      return `background-image: ${this.config.background_image};`;
     }
     else {
       return '';

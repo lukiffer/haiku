@@ -1,12 +1,16 @@
+import { EventService } from './event-service.js';
+
 export class CustomizationService {
-  constructor() {
-    this.settingsDialog = this._findMoreInfoDialog();
+  constructor(node) {
+    this.node = node;
+    this.eventService = new EventService();
     this.settingsDialogContent = null;
     this.handleDialogCancel = (event) => this._handleDialogCancel(event);
     this.handleCustomizationComplete = (event) => this._handleCustomizationComplete(event);
   }
 
   openSettingsDialog(hass, entity) {
+    this.settingsDialog = this._findMoreInfoDialog(entity);
     this.settingsDialog.fire('more-info-page', { page: 'haiku_settings' });
     this.settingsDialogContent = document.createElement('haiku-settings-dialog');
     this.settingsDialogContent.entity = entity;
@@ -18,10 +22,21 @@ export class CustomizationService {
     this.settingsDialog.open();
   }
 
-  _findMoreInfoDialog() {
+  _findMoreInfoDialog(entity) {
     const hassEl = document.getElementsByTagName('home-assistant')[0];
-    const hassMainEl = hassEl.shadowRoot.querySelector('home-assistant-main');
-    return hassMainEl.shadowRoot.querySelector('ha-more-info-dialog');
+    let dialog = hassEl.shadowRoot.querySelector('ha-more-info-dialog');
+
+    // TODO: ha-more-info-dialog is now created on demand. As a quick fix, we'll call the standard
+    //       hass-more-info to bootstrap the dialog, then close it. Should figure out a better way.
+    if (!dialog) {
+      this.eventService.fire(this.node, 'hass-more-info', {
+        entityId: entity.entity_id
+      });
+      dialog = hassEl.shadowRoot.querySelector('ha-more-info-dialog');
+      dialog.close();
+    }
+
+    return dialog;
   }
 
   _handleDialogCancel(event) {

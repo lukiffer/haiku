@@ -6,7 +6,7 @@ import './haiku-settings-dialog.js';
 export class HaikuTileBase extends LitElement {
   constructor() {
     super();
-    this.customizationService = new CustomizationService();
+    this.customizationService = new CustomizationService(this);
   }
 
   handleClick(event) {
@@ -20,5 +20,13 @@ export class HaikuTileBase extends LitElement {
         entityId: this.entity.entity_id
       });
     }
+  }
+
+  getName(entity) {
+    if (entity.attributes && entity.attributes.friendly_name) {
+      return entity.attributes.friendly_name;
+    }
+
+    return entity.entity_id;
   }
 }
