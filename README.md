@@ -37,13 +37,16 @@ adding the following to your `ui-lovelace.yaml` file:
 
 ```yaml
 resources:
+  - url: /local/node_modules/haiku/cards/haiku-global-config.js
+    type: module
   - url: /local/node_modules/haiku/cards/haiku-room-card.js
     type: module
 views:
   - title: Overview
-    tab_icon: mdi:home
+    icon: mdi:home
     # ...
     cards:
+      - type: "custom:haiku-global-config"
       - type: "custom:haiku-room-card"
         name: Master Bedroom
         entities:
@@ -54,11 +57,16 @@ views:
           # etc
 ```
 
+- `custom:haiku-global-config` adds a global cog menu to the UI that allows you to select a theme and set other global settings for Haiku.
+Note that this will display only as a cog menu in the bottom right - no card will be rendered.
+- `custom:haiku-room-card` adds a "room" card and renders tiles for each entity included in that card's config.
+
 ### Alternate Installation
 
-As an alternate installation, you can extract the `haiku` directory from the NPM package and manually deploy it to your
-Home Assistant instance. Be sure to update the `resources` definition in the `ui-lovelace.yaml` file depending on where
-you deploy the `haiku` directory.
+Alternatively, you can download a ZIP archive of the latest [release](https://github.com/lukiffer/haiku/releases) (note you'll download
+the package, not the source files) and copy these to wherever your Home Assistant `www` directory is.
+
+Also note that you'll need to change the paths from the `ui-lovelace.yaml` file example above to not include a `node_modules` directory.
 
 
 ### Customization
@@ -74,8 +82,8 @@ Each room card can be configured with these options:
   - You can specify other valid CSS values like gradients `background_image: "linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%)"`
 
 As mentioned above, a fully-descriptive name is more useful in a global context. If you want to customize the options for a
-group or entity in Haiku, you can hold alt/option and click the tile for the entity you want to customize. This allows you to edit the
-`haiku_type` and `haiku_label` custom properties.
+group or entity in Haiku, you can hold <kbd>alt</kbd> or <kbd>option</kbd> and click the tile for the entity you want to customize.
+This allows you to edit the `haiku_type` and `haiku_label` custom properties.
 
 You can also edit these properties in your `customize.yaml` directly:
 
