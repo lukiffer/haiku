@@ -17,15 +17,85 @@ export class HaikuSensorTile extends HaikuTileBase {
   _render({ entity }) {
     return html`
       {{ css }}
-      <div class="stat-container" on-click="${ (e) => this.handleClick(e) }">
-        <label>${ this.getTitle(entity) }</label>
-        <span class="stat-value" title$="${ this.getLongValue(entity) }">
-          ${ this.getShortValue(entity) }
-          <span class="unit">
-            ${ this.getUnit(entity) }
-          </span>
-        </span>
+      <div class="stat-container" title$="${ this.getName(entity) }" on-click="${ (e) => this.handleClick(e) }">
+        ${ this.renderSensorContent(entity) }
       </div>
+    `;
+  }
+
+  renderSensorContent(entity) {
+    let sensorType = 'default';
+
+    if (entity && entity.attributes && entity.attributes.haiku_type) {
+      sensorType = entity.attributes.haiku_type;
+    }
+
+    switch (sensorType) {
+      case 'smoke_binary':
+        return this.renderSmokeSensorContent(entity);
+      case 'co_binary':
+        return this.renderCarbonMonoxideSensorContent(entity);
+      case 'air_quality':
+        return this.renderAirQualitySensorContent(entity);
+      case 'motion_binary':
+        return this.renderMotionSensorContent(entity);
+      case 'temperature':
+      case 'humidity':
+      case 'default':
+      default:
+        return this.renderDefaultSensorContent(entity);
+    }
+  }
+
+  renderSmokeSensorContent(entity) {
+    return html`
+      <div class="status-container">
+        <div class$="status-value ${ this.getStatusClass(entity.state) }">
+          <span>Smoke</span>
+          <label>${ this.getShortValue(entity) }</label>
+        </div>
+      </div>
+    `;
+  }
+
+  renderCarbonMonoxideSensorContent(entity) {
+    return html`
+      <div class="status-container">
+        <div class$="status-value ${ this.getStatusClass(entity.state) }">
+          <span class="multiline">Carbon<br />Monoxide</span>
+          <label>${ this.getShortValue(entity) }</label>
+        </div>
+      </div>
+    `;
+  }
+
+  renderAirQualitySensorContent(entity) {
+    return html`
+      <div class="status-container">
+        <div class="status-value">
+          <span class="multiline">Air<br />Quality</span>
+          <label>${ this.getShortValue(entity) }</label>
+        </div>
+      </div>
+    `;
+  }
+
+  renderMotionSensorContent(entity) {
+    return html`
+      <label>Motion Sensor</label>
+      <span>${ entity }</span>
+    `;
+  }
+
+  renderDefaultSensorContent(entity) {
+    return html`
+      <label>${ this.getTitle(entity) }</label>
+      <span class="stat-value" title$="${ this.getLongValue(entity) }">
+        ${ this.getShortValue(entity) }
+        <span class="unit">
+          ${ this.getUnit(entity) }
+        </span>
+      </span>
     `;
   }
 
@@ -81,6 +151,33 @@ export class HaikuSensorTile extends HaikuTileBase {
 
   _hasUnit(entity) {
     return entity.attributes && entity.attributes.unit_of_measurement;
+  }
+
+  getStatusClass(state) {
+    const NORMAL_STATES = [
+      'ok'
+    ];
+
+    const WARNING_STATES = [
+      'warning'
+    ];
+
+    const CRITICAL_STATES = [
+      'emergency'
+    ];
+    if (NORMAL_STATES.includes(state.toLowerCase())) {
+      return 'status-normal';
+    }
+
+    if (WARNING_STATES.includes(state.toLowerCase())) {
+      return 'status-warning';
+    }
+
+    if (CRITICAL_STATES.includes(state.toLowerCase())) {
+      return 'status-critical';
+    }
+
+    return 'status-unknown';
   }
 }
 

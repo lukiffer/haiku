@@ -27,10 +27,10 @@ export class HaikuLightMenu extends LitElement {
       {{ css }}
       <ul class$="haiku-light-menu ${ this.collapsed ? 'collapsed' : 'expanded' }">
         <li class="haiku-light-menu-placeholder">
-          <a href="#" class="menu-toggle" on-click="${(e) => this.toggleMenuState$(e)}">
+          <a href="#" class="menu-toggle" on-click="${(e) => this.toggleMenuState(e)}">
             <ha-icon icon$="mdi:${ this.collapsed ? 'chevron-up' : 'chevron-down' }"></ha-icon> 
           </a>
-          <a href="#" class="menu-label" on-click="${(e) => this.toggleMenuState$(e)}">
+          <a href="#" class="menu-label" on-click="${(e) => this.toggleMenuState(e)}">
             <ha-icon icon$="mdi:${ this.state === 'on' ? 'lightbulb-on' : 'lightbulb' }"></ha-icon>
             Lighting
           </a>
@@ -48,7 +48,7 @@ export class HaikuLightMenu extends LitElement {
     }) ? 'on' : 'off';
   }
 
-  toggleMenuState$() {
+  toggleMenuState() {
     this.collapsed = !this.collapsed;
   }
 

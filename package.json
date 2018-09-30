@@ -1,6 +1,6 @@
 {
   "name": "@haiku-ui/haiku",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "A collection of cards and other web components for the Home Assistant Lovelace UI.",
   "private": false,
   "repository": {

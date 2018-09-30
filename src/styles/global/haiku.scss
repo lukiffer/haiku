@@ -1,0 +1,27 @@
+@import './themes/theme-dark.scss';
+
+.haiku-config-button {
+  position: fixed;
+  width: 50px;
+  height: 50px;
+  background-image: linear-gradient(to bottom, #555 0%, #444 100%);
+  border-radius: 50%;
+  border: none;
+  bottom: 20px;
+  right: 20px;
+  z-index: 99999;
+  outline: none;
+  color: white;
+  text-shadow: 0px 0px 9px rgba(0, 0, 0, 0.9);
+  cursor: pointer;
+  box-shadow: 0px 0px 9px rgba(0, 0, 0, 0.15);
+
+  ha-icon {
+    transition: all 0.2s;
+    transform: none;
+  }
+
+  &:hover ha-icon {
+    transform: rotate(-100deg);
+  }
+}

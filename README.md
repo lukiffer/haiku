@@ -40,12 +40,12 @@ resources:
   - url: /local/node_modules/haiku/cards/haiku-room-card.js
     type: module
 views:
-  - tab_icon: mdi:home
+  - title: Overview
+    tab_icon: mdi:home
     # ...
     cards:
       - type: "custom:haiku-room-card"
         name: Master Bedroom
-        class: bedroom
         entities:
           - group.lighting_master_bedroom
           - sensor.lumi_lumiweather_022cc5ba_1_1026
@@ -66,39 +66,64 @@ you deploy the `haiku` directory.
 Each room card can be configured with these options:
 
 - `name` is the room name displayed at the bottom of the card
-- `class` is the type of room that will determine the background image based on theme (any of 
-`bedroom`, `bedroom-alternate`, `recreation`, `living-room`, `kitchen`, or `dining-room`)
 - `entities` is an array of entities or groups (defined in `groups.yaml`)
+- `background_image` any valid CSS value for `background-image`
+  - You can specify the image from a camera feed by specifying `background-image: "url('http://hassio.local:8123/your_camera_image_feed')"`
+  - You can also specify a `url(...)` for a static image (you can host these externally or place them in your www folder and reference
+    them from there).
+  - You can specify other valid CSS values like gradients `background_image: "linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%)"`
 
-As mentioned above, a fully-descriptive name is more useful in a global context. If you want to customize the name of a
-group or entity in Haiku, simply go to the Customization section of your config and add a custom `haiku_label` attribute
-to the group or entity or edit your `customize.yaml` directly:
+As mentioned above, a fully-descriptive name is more useful in a global context. If you want to customize the options for a
+group or entity in Haiku, you can hold alt/option and click the tile for the entity you want to customize. This allows you to edit the
+`haiku_type` and `haiku_label` custom properties.
+
+You can also edit these properties in your `customize.yaml` directly:
 
 ```yaml
 fan.ge_12730_fan_control_switch_level:
   haiku_label: Ceiling Fan
+
+switch.example_light_switch:
+  haiku_label: Kitchen Light Switch
+  haiku_type: light
 ```
+
+- `haiku_label` can be any string value
+- `haiku_type` should be one of:
+  - `light`
+  - `temperature`
+  - `humidity`
+  - `smoke_binary`
+  - `co_binary`
+  - `air_quality`
+  - `motion_binary`
 
 ## Developing and Contributing
 
 
 ### Development Setup
+
 You can clone this repository and start developing with a few commands:
 
 ```bash
 npm install -g gulp
 npm install
+
+export HA_SSH_PORT=22
+export HA_SSH_USER=pi
+export HA_SSH_HOST=example.local
+
 gulp watch
 ```
 
 The `watch` command will watch the `src/**/*` glob pattern, rebuild the package on changes, and call the `deploy.sh` script.
 
-The deployment script makes some assumptions that you have key-based SSH authentication and you're `pi@raspberrypi` is a valid
-SSH target. It also assumes the destination directory to be `/home/homeassistant/.homeassistant/www/haiku` You can customize
-this script as necessary.
+The deployment script makes some assumptions that you have key-based SSH authentication. It also assumes the destination 
+directory to be `/home/homeassistant/.homeassistant/www/haiku` You can customize this script as necessary.
 
 
 ### Contributing
+
 This is a fun project for exploring Polymer and Lovelace -- one that satisfies my own personal needs for Home Assistant. PRs
 are welcome, but I can't make any guarantees as to my availability for PR reviews or bug fixes. Forking and customizing for your
 needs might be the quickest path.
