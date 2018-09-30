@@ -3,3 +3,4 @@ node_modules/
 /haiku/
 /.tmp/
 
+haiku-*.zip
