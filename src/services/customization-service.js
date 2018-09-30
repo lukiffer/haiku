@@ -22,6 +22,22 @@ export class CustomizationService {
     this.settingsDialog.open();
   }
 
+  openGlobalConfigDialog(callback) {
+    this.settingsDialog = this._findMoreInfoDialog({
+      'entity_id': null
+    });
+    this.settingsDialog.fire('more-info-page', { page: 'haiku_settings' });
+    this.settingsDialogContent = document.createElement('haiku-global-config-dialog');
+    this.settingsDialogContent.addEventListener('haiku-customization-complete', () => {
+      callback();
+      this._handleCustomizationComplete();
+    });
+    this.settingsDialog.shadowRoot.appendChild(this.settingsDialogContent);
+    this.settingsDialog.addEventListener('iron-overlay-canceled', this.handleDialogCancel);
+    this.settingsDialog.addEventListener('iron-overlay-closed', this.handleDialogCancel);
+    this.settingsDialog.open();
+  }
+
   _findMoreInfoDialog(entity) {
     const hassEl = document.getElementsByTagName('home-assistant')[0];
     let dialog = hassEl.shadowRoot.querySelector('ha-more-info-dialog');
@@ -43,7 +59,10 @@ export class CustomizationService {
     if (event && event.path[0].nodeName !== 'HA-MORE-INFO-DIALOG') {
       return;
     }
-    const el = this.settingsDialog.shadowRoot.querySelector('haiku-settings-dialog');
+    let el = this.settingsDialog.shadowRoot.querySelector('haiku-settings-dialog');
+    if (!el) {
+      el = this.settingsDialog.shadowRoot.querySelector('haiku-global-config-dialog');
+    }
     this.settingsDialog.shadowRoot.removeChild(el);
     this.settingsDialog.fire('more-info-page', { page: null });
     this.settingsDialog.removeEventListener('iron-overlay-canceled', this.handleDialogCancel);

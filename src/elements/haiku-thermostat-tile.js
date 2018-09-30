@@ -15,8 +15,6 @@ export class HaikuThermostatTile extends HaikuTileBase {
   }
 
   _render({ entity }) {
-    console.log(entity);
-    // console.log(entity.state);
     return html`
       {{ css }}
       <div class="stat-container"

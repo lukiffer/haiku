@@ -1,0 +1,12 @@
+.form {
+  padding: 0 2rem;
+
+  & > paper-button {
+    float: right;
+    margin: 1rem 0;
+  }
+
+  & > paper-dropdown-menu {
+    width: 100%;
+  }
+}

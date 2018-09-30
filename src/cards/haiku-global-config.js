@@ -1,9 +1,17 @@
 import { StorageService } from '../services/storage-service.js';
+import { CustomizationService } from '../services/customization-service.js';
+import '../elements/haiku-global-config-dialog.js';
+import 'https://unpkg.com/lodash@4.17.10/lodash.js?module';
 
 /**
  * Haiku global config UI
  */
 export class HaikuGlobalConfig extends HTMLElement {
+
+  constructor() {
+    super();
+    this.customizationService = new CustomizationService(this);
+  }
 
   set hass(hass) {
     this.ha = hass;
@@ -12,6 +20,7 @@ export class HaikuGlobalConfig extends HTMLElement {
       this.setAttribute('style', 'margin:0;');
       this.initStylesheet();
       this.initTheme();
+      this.initConfigButton();
       this.initialized = true;
     }
   }
@@ -37,9 +46,35 @@ export class HaikuGlobalConfig extends HTMLElement {
     if (!existingCssClasses) {
       document.body.setAttribute('class', theme);
     }
-    else if (existingCssClasses.indexOf(theme) === -1) {
-      document.body.setAttribute('class', `${existingCssClasses} ${theme}`);
+    else {
+      let cssClasses = existingCssClasses.split(' ');
+      cssClasses = _.filter(cssClasses, (cssClass) => {
+        return cssClass.indexOf('haiku-') === -1;
+      });
+      document.body.setAttribute('class', `${cssClasses.join(' ')} ${theme}`);
     }
+  }
+
+  initConfigButton() {
+    if (!document.getElementById('haiku_config_button')) {
+      const configButton = document.createElement('button');
+      configButton.setAttribute('class', 'haiku-config-button');
+      const icon = document.createElement('ha-icon');
+      icon.setAttribute('icon', 'mdi:settings');
+      configButton.appendChild(icon);
+      configButton.onclick = () => {
+        this._openGlobalConfigDialog();
+      };
+      document.body.appendChild(configButton);
+    }
+  }
+
+  _openGlobalConfigDialog() {
+    const $this = this;
+    this.customizationService.openGlobalConfigDialog(() => {
+      console.log('saved...');
+      $this.initTheme();
+    });
   }
 
   setConfig(config) {
