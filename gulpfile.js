@@ -25,7 +25,7 @@ function mergeCss() {
     this.push(new util.File({
       base: file.base,
       path: file.path,
-      contents: new Buffer(output, enc)
+      contents: Buffer.from(output, enc)
     }));
     cb();
   });
@@ -38,38 +38,40 @@ gulp.task('lint', () => {
     .pipe(eslint.failAfterError());
 });
 
-gulp.task('build', ['js'], () => {
-  gulp.src(['.tmp/**/*.js', '.tmp/haiku.css'])
-    .pipe(mergeCss())
-    .pipe(gulp.dest('haiku'));
+gulp.task('clean:tmp', (done) => {
+  del.sync(['.tmp/**']);
+  done();
 });
 
-gulp.task('js', ['sass', 'lint'], () => {
-  return gulp.src(['src/**/*.js'])
-    .pipe(gulp.dest('.tmp'));
-});
+gulp.task('clean:dist', gulp.series('clean:tmp', (done) => {
+  del.sync(['dist/**']);
+  done();
+}));
 
-gulp.task('sass', ['sass:global'], () => {
-  return gulp.src(['src/**/*.scss', '!src/styles/global/**/*.scss'])
-    .pipe(sassLint())
-    .pipe(sass().on('error', sass.logError))
-    .pipe(gulp.dest('.tmp'));
-});
-
-gulp.task('sass:global', ['clean:dist'], () => {
+gulp.task('sass:global', gulp.series('clean:dist', () => {
   return gulp.src(['src/styles/global/haiku.scss'])
     .pipe(sassLint())
     .pipe(sass().on('error', sass.logError))
     .pipe(gulp.dest('.tmp'));
-});
+}));
 
-gulp.task('clean:tmp', () => {
-  return del.sync(['.tmp/**']);
-});
+gulp.task('sass', gulp.series('sass:global', () => {
+  return gulp.src(['src/**/*.scss', '!src/styles/global/**/*.scss'])
+    .pipe(sassLint())
+    .pipe(sass().on('error', sass.logError))
+    .pipe(gulp.dest('.tmp'));
+}));
 
-gulp.task('clean:dist', ['clean:tmp'], () => {
-  return del.sync(['haiku/**']);
-});
+gulp.task('js', gulp.series('sass', 'lint', () => {
+  return gulp.src(['src/**/*.js'])
+    .pipe(gulp.dest('.tmp'));
+}));
+
+gulp.task('build', gulp.series('js', () => {
+  return gulp.src(['.tmp/**/*.js', '.tmp/haiku.css'])
+    .pipe(mergeCss())
+    .pipe(gulp.dest('dist'));
+}));
 
 gulp.task('watch', () => {
   watch(['src/**/*'], {debounceDelay: 2000}, () => {
@@ -77,7 +79,7 @@ gulp.task('watch', () => {
   });
 });
 
-gulp.task('deploy', ['build'], (cb) => {
+gulp.task('deploy', gulp.series('build', (cb) => {
   exec('sh ./tools/deploy/deploy.sh', () => {
     notifier.notify({
       title: 'Deployment Complete',
@@ -85,6 +87,6 @@ gulp.task('deploy', ['build'], (cb) => {
     });
     cb();
   });
-});
+}));
 
-gulp.task('default', ['build']);
+gulp.task('default', gulp.series('build'));
