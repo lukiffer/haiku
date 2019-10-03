@@ -1,4 +1,4 @@
-import { LitElement, html } from 'https://unpkg.com/@polymer/lit-element@^0.5.2/lit-element.js?module';
+import { LitElement, html } from 'https://unpkg.com/@polymer/lit-element@0.5.2/lit-element.js?module';
 import { LightService } from '../services/light-service.js';
 import { CustomizationService } from '../services/customization-service.js';
 import './haiku-light-control.js';

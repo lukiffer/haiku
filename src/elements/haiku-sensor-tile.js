@@ -1,4 +1,4 @@
-import { html } from 'https://unpkg.com/@polymer/lit-element@^0.5.2/lit-element.js?module';
+import { html } from 'https://unpkg.com/@polymer/lit-element@0.5.2/lit-element.js?module';
 import { HaikuTileBase } from './haiku-tile-base.js';
 
 export class HaikuSensorTile extends HaikuTileBase {

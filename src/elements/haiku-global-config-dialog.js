@@ -1,4 +1,4 @@
-import { html, LitElement } from 'https://unpkg.com/@polymer/lit-element@^0.5.2/lit-element.js?module';
+import { html, LitElement } from 'https://unpkg.com/@polymer/lit-element@0.5.2/lit-element.js?module';
 import { StorageService } from '../services/storage-service.js';
 import { EventService } from '../services/event-service.js';
 import 'https://unpkg.com/lodash@4.17.10/lodash.js?module';
