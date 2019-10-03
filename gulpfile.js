@@ -10,6 +10,27 @@ const notifier  = require('node-notifier');
 const through   = require('through2');
 const exec      = require('child_process').exec;
 
+function mergeCss() {
+  return through.obj(function(file, enc, cb) {
+    const cssFilePath = file.path.replace(/\.js$/, '.css');
+    const js = file._contents.toString(enc);
+    let css = null;
+    try {
+      css = fs.readFileSync(cssFilePath).toString(enc);
+    }
+    catch (e) {
+      css = '';
+    }
+    const output = js.replace(/{{ css }}/, `<style>${ css }</style>`);
+    this.push(new util.File({
+      base: file.base,
+      path: file.path,
+      contents: new Buffer(output, enc)
+    }));
+    cb();
+  });
+}
+
 gulp.task('lint', () => {
   return gulp.src(['src/**/*.js'])
     .pipe(eslint())
@@ -57,7 +78,7 @@ gulp.task('watch', () => {
 });
 
 gulp.task('deploy', ['build'], (cb) => {
-  exec('sh deploy.sh', () => {
+  exec('sh ./tools/deploy/deploy.sh', () => {
     notifier.notify({
       title: 'Deployment Complete',
       message: 'The updated compiled artifacts were pushed to the raspberrypi.'
@@ -67,24 +88,3 @@ gulp.task('deploy', ['build'], (cb) => {
 });
 
 gulp.task('default', ['build']);
-
-function mergeCss() {
-  return through.obj(function (file, enc, cb) {
-    const cssFilePath = file.path.replace(/\.js$/, '.css');
-    const js = file._contents.toString(enc);
-    let css = null;
-    try {
-      css = fs.readFileSync(cssFilePath).toString(enc);
-    }
-    catch (e) {
-      css = '';
-    }
-    const output = js.replace(/{{ css }}/, `<style>${ css }</style>`);
-    this.push(new util.File({
-      base: file.base,
-      path: file.path,
-      contents: new Buffer(output, enc)
-    }));
-    cb();
-  });
-}
