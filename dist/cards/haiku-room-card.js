@@ -25,7 +25,69 @@ export class HaikuRoomCard extends LitElement {
   _render({ hass, config }) {
     return html`
       <style include="paper-material-styles"></style>
-      {{ css }}
+      <style>.haiku-card-container {
+  position: relative;
+  overflow: hidden;
+  -webkit-overflow-scrolling: touch; }
+
+.haiku-room-card {
+  height: 30rem;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+  padding: 1rem 1.5rem;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.15) 0%, rgba(0, 0, 0, 0.45) 100%), radial-gradient(at top center, rgba(255, 255, 255, 0.4) 0%, rgba(0, 0, 0, 0.4) 120%) #989898;
+  background-blend-mode: multiply,multiply;
+  background-size: auto 100%;
+  background-repeat: no-repeat;
+  background-position: center center; }
+
+.haiku-room-card-title {
+  color: white;
+  text-shadow: 0px 0px 9px rgba(0, 0, 0, 0.9);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  font-family: "Roboto", "Noto", sans-serif;
+  font-weight: 400;
+  padding: 1.5rem 2rem;
+  background: rgba(0, 0, 0, 0.7);
+  margin-bottom: 0; }
+
+.tiles {
+  display: block;
+  margin: 0 -3px; }
+  .tiles > * {
+    display: block;
+    float: left;
+    margin: 6px 3px 0; }
+    @media only screen and (max-width: 599px) {
+      .tiles > * {
+        width: 32%; }
+        .tiles > *:nth-child(3n+3) {
+          margin-right: -1px; } }
+    @media only screen and (min-width: 600px) and (max-width: 849px) {
+      .tiles > * {
+        width: 48%; }
+        .tiles > *:nth-child(odd) {
+          margin-right: -1px; } }
+    @media only screen and (min-width: 850px) and (max-width: 899px) {
+      .tiles > * {
+        width: 32%; }
+        .tiles > *:nth-child(3n+3) {
+          margin-right: -1px; } }
+    @media only screen and (min-width: 900px) and (max-width: 1599px) {
+      .tiles > * {
+        width: 48%; }
+        .tiles > *:nth-child(odd) {
+          margin-right: -1px; } }
+    @media only screen and (min-width: 1600px) {
+      .tiles > * {
+        width: 32%; }
+        .tiles > *:nth-child(3n+3) {
+          margin-right: -1px; } }
+</style>
       <div class="haiku-card-container">
         <ha-card class$="haiku-room-card ${ config.class || '' }" style$="${this.getCustomBackgroundStyle()}">
           <haiku-light-menu hass="${ hass }" entities="${ this.getEntitiesByDomain('light') }"></haiku-light-menu>

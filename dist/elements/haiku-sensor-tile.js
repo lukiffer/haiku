@@ -16,7 +16,86 @@ export class HaikuSensorTile extends HaikuTileBase {
 
   _render({ entity }) {
     return html`
-      {{ css }}
+      <style>.stat-container {
+  background: rgba(33, 33, 33, 0.7);
+  margin-top: 2px;
+  margin-right: 2px;
+  height: 120px;
+  cursor: pointer; }
+  .stat-container > label {
+    color: white;
+    text-shadow: 0px 0px 9px rgba(0, 0, 0, 0.9);
+    display: block;
+    padding: 1.25rem 0 0 16px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer; }
+  .stat-container > .stat-value {
+    color: white;
+    text-shadow: 0px 0px 9px rgba(0, 0, 0, 0.9);
+    font-size: 48px;
+    font-weight: 400;
+    display: block;
+    margin-top: 1.5rem;
+    margin-left: 16px;
+    letter-spacing: -1px; }
+    .stat-container > .stat-value.unavailable {
+      font-size: 18px;
+      letter-spacing: 0;
+      color: #555;
+      text-transform: uppercase; }
+    .stat-container > .stat-value > .unit {
+      color: white;
+      text-shadow: 0px 0px 9px rgba(0, 0, 0, 0.9);
+      font-size: 24px;
+      font-weight: 400;
+      margin-left: -8px; }
+
+.status-value {
+  border: solid 4px #ccc;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  padding: 3px;
+  margin: 0 auto;
+  text-align: center;
+  color: #fff;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.85); }
+  .status-value.status-normal {
+    border-color: #bada55; }
+  .status-value.status-warning {
+    border-color: #ffc800; }
+  .status-value.status-critical {
+    border-color: #d20c0c; }
+  .status-value > ha-icon {
+    font-size: 24px;
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 8px;
+    margin-top: 6px; }
+  .status-value > span {
+    color: white;
+    text-shadow: 0px 0px 9px rgba(0, 0, 0, 0.9);
+    font-size: 11px;
+    display: block;
+    margin: 0 auto;
+    line-height: 14px;
+    text-transform: uppercase;
+    margin-bottom: 0;
+    margin-top: 16px; }
+    .status-value > span.multiline {
+      margin-bottom: 0;
+      margin-top: 7px; }
+  .status-value > label {
+    color: white;
+    text-shadow: 0px 0px 9px rgba(0, 0, 0, 0.9);
+    font-size: 32px;
+    text-transform: uppercase;
+    letter-spacing: -1px; }
+
+.status-container {
+  padding: 12px 0; }
+</style>
       <div class="stat-container" title$="${ this.getName(entity) }" on-click="${ (e) => this.handleClick(e) }">
         ${ this.renderSensorContent(entity) }
       </div>

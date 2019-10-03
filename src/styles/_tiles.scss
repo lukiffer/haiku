@@ -25,6 +25,13 @@
     margin-left: 16px;
     letter-spacing: -1px;
 
+    &.unavailable {
+      font-size: 18px;
+      letter-spacing: 0;
+      color: #555;
+      text-transform: uppercase;
+    }
+
     & > .unit {
       @include overlay-text();
       font-size: 24px;
@@ -72,11 +79,11 @@
     margin: 0 auto;
     line-height: 14px;
     text-transform: uppercase;
-    margin-bottom: 9px;
+    margin-bottom: 0;
     margin-top: 16px;
 
     &.multiline {
-      margin-bottom: 7px;
+      margin-bottom: 0;
       margin-top: 7px;
     }
   }

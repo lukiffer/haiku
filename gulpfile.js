@@ -10,66 +10,8 @@ const notifier  = require('node-notifier');
 const through   = require('through2');
 const exec      = require('child_process').exec;
 
-gulp.task('lint', () => {
-  return gulp.src(['src/**/*.js'])
-    .pipe(eslint())
-    .pipe(eslint.format())
-    .pipe(eslint.failAfterError());
-});
-
-gulp.task('build', ['js'], () => {
-  gulp.src(['.tmp/**/*.js', '.tmp/haiku.css'])
-    .pipe(mergeCss())
-    .pipe(gulp.dest('haiku'));
-});
-
-gulp.task('js', ['sass', 'lint'], () => {
-  return gulp.src(['src/**/*.js'])
-    .pipe(gulp.dest('.tmp'));
-});
-
-gulp.task('sass', ['sass:global'], () => {
-  return gulp.src(['src/**/*.scss', '!src/styles/global/**/*.scss'])
-    .pipe(sassLint())
-    .pipe(sass().on('error', sass.logError))
-    .pipe(gulp.dest('.tmp'));
-});
-
-gulp.task('sass:global', ['clean:dist'], () => {
-  return gulp.src(['src/styles/global/haiku.scss'])
-    .pipe(sassLint())
-    .pipe(sass().on('error', sass.logError))
-    .pipe(gulp.dest('.tmp'));
-});
-
-gulp.task('clean:tmp', () => {
-  return del.sync(['.tmp/**']);
-});
-
-gulp.task('clean:dist', ['clean:tmp'], () => {
-  return del.sync(['haiku/**']);
-});
-
-gulp.task('watch', () => {
-  watch(['src/**/*'], {debounceDelay: 2000}, () => {
-    gulp.start('deploy');
-  });
-});
-
-gulp.task('deploy', ['build'], (cb) => {
-  exec('sh deploy.sh', () => {
-    notifier.notify({
-      title: 'Deployment Complete',
-      message: 'The updated compiled artifacts were pushed to the raspberrypi.'
-    });
-    cb();
-  });
-});
-
-gulp.task('default', ['build']);
-
 function mergeCss() {
-  return through.obj(function (file, enc, cb) {
+  return through.obj(function(file, enc, cb) {
     const cssFilePath = file.path.replace(/\.js$/, '.css');
     const js = file._contents.toString(enc);
     let css = null;
@@ -83,8 +25,68 @@ function mergeCss() {
     this.push(new util.File({
       base: file.base,
       path: file.path,
-      contents: new Buffer(output, enc)
+      contents: Buffer.from(output, enc)
     }));
     cb();
   });
 }
+
+gulp.task('lint', () => {
+  return gulp.src(['src/**/*.js'])
+    .pipe(eslint())
+    .pipe(eslint.format())
+    .pipe(eslint.failAfterError());
+});
+
+gulp.task('clean:tmp', (done) => {
+  del.sync(['.tmp/**']);
+  done();
+});
+
+gulp.task('clean:dist', gulp.series('clean:tmp', (done) => {
+  del.sync(['dist/**']);
+  done();
+}));
+
+gulp.task('sass:global', gulp.series('clean:dist', () => {
+  return gulp.src(['src/styles/global/haiku.scss'])
+    .pipe(sassLint())
+    .pipe(sass().on('error', sass.logError))
+    .pipe(gulp.dest('.tmp'));
+}));
+
+gulp.task('sass', gulp.series('sass:global', () => {
+  return gulp.src(['src/**/*.scss', '!src/styles/global/**/*.scss'])
+    .pipe(sassLint())
+    .pipe(sass().on('error', sass.logError))
+    .pipe(gulp.dest('.tmp'));
+}));
+
+gulp.task('js', gulp.series('sass', 'lint', () => {
+  return gulp.src(['src/**/*.js'])
+    .pipe(gulp.dest('.tmp'));
+}));
+
+gulp.task('build', gulp.series('js', () => {
+  return gulp.src(['.tmp/**/*.js', '.tmp/haiku.css'])
+    .pipe(mergeCss())
+    .pipe(gulp.dest('dist'));
+}));
+
+gulp.task('watch', () => {
+  watch(['src/**/*'], {debounceDelay: 2000}, () => {
+    gulp.start('deploy');
+  });
+});
+
+gulp.task('deploy', gulp.series('build', (cb) => {
+  exec('sh ./tools/deploy/deploy.sh', () => {
+    notifier.notify({
+      title: 'Deployment Complete',
+      message: 'The updated compiled artifacts were pushed to the raspberrypi.'
+    });
+    cb();
+  });
+}));
+
+gulp.task('default', gulp.series('build'));

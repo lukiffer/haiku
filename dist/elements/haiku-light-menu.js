@@ -24,7 +24,52 @@ export class HaikuLightMenu extends LitElement {
   _render({ hass, entities }) {
     this.entitiesChanged(entities);
     return html`
-      {{ css }}
+      <style>.menu-label {
+  color: white;
+  text-shadow: 0px 0px 9px rgba(0, 0, 0, 0.9);
+  display: flex;
+  flex: 8 0 0;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 16px;
+  padding: 1rem 1.5rem 1rem 0.5rem; }
+  .menu-label > ha-icon {
+    margin-right: 0.5rem;
+    margin-top: -5px; }
+
+.menu-toggle {
+  color: rgba(255, 255, 255, 0.5);
+  flex: 1 0 0;
+  text-align: right; }
+  .menu-toggle > ha-icon {
+    margin-top: 12px;
+    margin-left: 13px; }
+
+ul, li {
+  list-style: none; }
+
+.haiku-light-menu {
+  display: block;
+  background: rgba(33, 33, 33, 0.7);
+  margin: 0;
+  padding: 0; }
+  .haiku-light-menu > li {
+    margin: 0;
+    padding: 0; }
+  .haiku-light-menu > haiku-light-group {
+    display: flex;
+    transition: max-height 0.5s;
+    overflow: hidden; }
+  .haiku-light-menu.collapsed > haiku-light-group {
+    max-height: 0; }
+  .haiku-light-menu.expanded > haiku-light-group {
+    max-height: 40rem; }
+  .haiku-light-menu > li.haiku-light-menu-placeholder {
+    display: flex; }
+
+paper-toggle-button {
+  margin-right: 12px; }
+</style>
       <ul class$="haiku-light-menu ${ this.collapsed ? 'collapsed' : 'expanded' }">
         <li class="haiku-light-menu-placeholder">
           <a href="#" class="menu-toggle" on-click="${(e) => this.toggleMenuState(e)}">

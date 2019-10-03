@@ -21,7 +21,52 @@ export class HaikuLightGroup extends LitElement {
 
   _render({ entity }) {
     return html`
-      {{ css }}
+      <style>.menu-label {
+  color: white;
+  text-shadow: 0px 0px 9px rgba(0, 0, 0, 0.9);
+  display: flex;
+  flex: 8 0 0;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 16px;
+  padding: 1rem 1.5rem 1rem 0.5rem; }
+  .menu-label > ha-icon {
+    margin-right: 0.5rem;
+    margin-top: -5px; }
+
+.menu-toggle {
+  color: rgba(255, 255, 255, 0.5);
+  flex: 1 0 0;
+  text-align: right; }
+  .menu-toggle > ha-icon {
+    margin-top: 12px;
+    margin-left: 13px; }
+
+ul, li {
+  list-style: none; }
+
+.flex-container {
+  display: flex; }
+
+.group-container {
+  width: 100%;
+  border-top: solid 1px rgba(0, 0, 0, 0.2); }
+  .group-container > ul {
+    transition: max-height 0.5s;
+    overflow: hidden;
+    padding: 0 0 0 10.5%;
+    margin: 0; }
+  .group-container.collapsed > ul {
+    max-height: 0; }
+  .group-container.expanded > ul {
+    max-height: 40rem; }
+
+paper-toggle-button {
+  margin-right: 12px; }
+
+.menu-toggle.entity {
+  visibility: hidden; }
+</style>
       <li class$="group-container ${ this.collapsed ? 'collapsed' : 'expanded'}">
         <span class="flex-container">
           <a href="#" class$="menu-toggle ${this.isGroup() ? 'group' : 'entity'}" on-click="${(e) => this.toggleMenuState(e)}">

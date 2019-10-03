@@ -126,7 +126,7 @@ gulp watch
 
 The `watch` command will watch the `src/**/*` glob pattern, rebuild the package on changes, and call the `deploy.sh` script.
 
-The deployment script makes some assumptions that you have key-based SSH authentication. It also assumes the destination 
+The deployment script makes some assumptions that you have key-based SSH authentication. It also assumes the destination
 directory to be `/home/homeassistant/.homeassistant/www/haiku` You can customize this script as necessary.
 
 

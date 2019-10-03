@@ -17,7 +17,14 @@ export class HaikuGlobalConfigDialog extends LitElement {
 
   _render() {
     return html`
-      {{ css }}
+      <style>.form {
+  padding: 0 2rem; }
+  .form > paper-button {
+    float: right;
+    margin: 1rem 0; }
+  .form > paper-dropdown-menu {
+    width: 100%; }
+</style>
       <app-toolbar>
         <paper-icon-button icon="hass:close" dialog-dismiss=""></paper-icon-button>
         <div main-title="">Haiku Global Settings</div>

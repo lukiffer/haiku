@@ -21,7 +21,46 @@ export class HaikuLightControl extends LitElement {
   _render({ entity }) {
     return html`
       <style include="iron-flex"></style>
-      {{ css }}
+      <style>.menu-label {
+  color: white;
+  text-shadow: 0px 0px 9px rgba(0, 0, 0, 0.9);
+  display: flex;
+  flex: 8 0 0;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 16px;
+  padding: 1rem 1.5rem 1rem 0.5rem; }
+  .menu-label > ha-icon {
+    margin-right: 0.5rem;
+    margin-top: -5px; }
+
+.menu-toggle {
+  color: rgba(255, 255, 255, 0.5);
+  flex: 1 0 0;
+  text-align: right; }
+  .menu-toggle > ha-icon {
+    margin-top: 12px;
+    margin-left: 13px; }
+
+ul, li {
+  list-style: none; }
+
+li {
+  display: flex; }
+
+.menu-label {
+  font-size: 15px;
+  padding: 8px 0; }
+  .menu-label > ha-icon {
+    height: 20px;
+    margin-top: -3px; }
+
+paper-toggle-button {
+  display: flex;
+  flex: 1 0 0;
+  margin-top: -4px;
+  margin-right: 12px; }
+</style>
       <li>
         <span class="menu-label" on-click="${(e) => this.handleClick(e)}">
           <ha-icon icon$="mdi:${entity.state === 'on' ? 'lightbulb-on' : 'lightbulb'}"></ha-icon>

@@ -1,6 +1,6 @@
 @import './_mixins.scss';
 
-.menu-label { 
+.menu-label {
   @include overlay-text();
   display: flex;
   flex: 8 0 0;
