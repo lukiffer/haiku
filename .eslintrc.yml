@@ -68,4 +68,3 @@ rules:
   space-in-parens: [1, "never"]
   no-var: 2
   prefer-const: 2
- 

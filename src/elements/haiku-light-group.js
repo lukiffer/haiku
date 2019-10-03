@@ -25,7 +25,7 @@ export class HaikuLightGroup extends LitElement {
       <li class$="group-container ${ this.collapsed ? 'collapsed' : 'expanded'}">
         <span class="flex-container">
           <a href="#" class$="menu-toggle ${this.isGroup() ? 'group' : 'entity'}" on-click="${(e) => this.toggleMenuState(e)}">
-            <ha-icon icon$="mdi:${ this.collapsed ? 'chevron-up' : 'chevron-down' }"></ha-icon> 
+            <ha-icon icon$="mdi:${ this.collapsed ? 'chevron-up' : 'chevron-down' }"></ha-icon>
           </a>
           <a href="javascript:void(0);" class="menu-label" on-click="${(e) => this.handleClick(e)}">
             <ha-icon icon$="mdi:${ entity.state === 'on' ? 'lightbulb-on' : 'lightbulb' }"></ha-icon>
