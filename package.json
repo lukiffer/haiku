@@ -1,6 +1,6 @@
 {
   "name": "@haiku-ui/haiku",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "A collection of cards and other web components for the Home Assistant Lovelace UI.",
   "private": false,
   "repository": {
@@ -14,8 +14,11 @@
   },
   "homepage": "https://github.com/lukiffer/haiku#readme",
   "files": [
-    "haiku/**/*"
+    "dist/**/*"
   ],
+  "scripts": {
+    "build": "gulp build"
+  },
   "devDependencies": {
     "del": "^3.0.0",
     "expand-range": "^2.0.2",
