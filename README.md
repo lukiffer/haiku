@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/lukiffer/haiku.svg?style=svg)](https://circleci.com/gh/lukiffer/haiku)
+
 # haiku
 A collection of cards and other web components for the Home Assistant Lovelace UI.
 
@@ -8,38 +10,47 @@ in a way that's easy and intuitive to navigate, progressively exposing controls 
 of devices in a room, and for the devices themselves.
 
 This progressive granularity is customizable as are the grouping and naming of devices. This extends the philosophy
-behind Lovelace of separating logical grouping of devices from interface-specific grouping and naming.
+behind Lovelace of separating _logical_ grouping of devices from _interface-specific_ grouping and naming.
 
-For example, in a global context like calling the API or the HA management interface, more specific names are relevant
-(such as "Master Bedroom Ceiling Fan Light 1"). However this naming becomes cumbersome in your day-to-day interface,
-and by organizing these and nesting them, you can achieve the same amount of context with significantly less clutter
-(e.g. Master Bedroom > Lights > Ceiling Fan Lights > Ceiling Fan Light 1).
+> For example, in a global context like calling the API or the HA states interface, more specific names are relevant
+(such as "Master Bedroom Ceiling Fan Light 1"). However this naming becomes cumbersome in your day-to-day interface.
+By nesting your entities into progressively more specific groups you can achieve the same amount of context with
+significantly less clutter. (e.g. Master Bedroom > Lights > Ceiling Fan Lights > Ceiling Fan Light 1).
 
 ![Haiku UI Example](/docs/example.gif "Haiku UI Example")
 
 
 ## Installation and Configuration
-Installation will vary depending on your Home Assistant setup. In all scenarios, you'll need to setup Lovelace by
-following the instructions found [here](https://www.home-assistant.io/lovelace/).
 
+Installation will vary slightly depending on your Home Assistant setup. The steps below will cover most installations,
+but if you have a scenario where these instructions don't work, feel free to [open an issue](https://github.com/lukiffer/haiku/issues)
+and we'll either amend these instructions or provide a workaround.
 
-### Using SSH and NPM
-If you have SSH access to your Home Assistant instance and [NodeJS](https://nodejs.org/)
-installed, change into the www directory below your config directory and install haiku:
+### Enable YAML Configuration Mode
 
-```bash
-cd /user/homeassistant/.homeassistant/www/
-npm install @haiku-ui/haiku
+To enable YAML configuration mode, open your `configuration.yaml` in your Home Assistant config directory, and add
+or update the `lovelace:` key:
+
+```yaml
+lovelace:
+  mode: yaml
 ```
+This will tell Home Assistant that you want to use a configuration file (rather than the UI) to configure the front-end.
 
-This will install haiku into `node_modules` under your `www` directory. You can then reference custom cards by
-adding the following to your `ui-lovelace.yaml` file:
+Note that you'll also need to use a modern web browser (or client) – one compatible the (now-deprecated) `frontend: latest`
+setting. The latest versions of Chrome, Webkit, Firefox, Edge, and Opera all work fine, as well as the latest mobile browsers.
+
+### Update the Lovelace Configuration
+
+After making the above change, restarting Home Assistant will create a `ui-lovelace.yaml` file in your configuration
+directory. At the top level of that document, add the `resources` key and any of the resource files you want to use from
+Haiku.
 
 ```yaml
 resources:
-  - url: /local/node_modules/haiku/cards/haiku-global-config.js
+  - url: https://unpkg.com/@haiku-ui/haiku/dist/cards/haiku-room-card.js
     type: module
-  - url: /local/node_modules/haiku/cards/haiku-room-card.js
+  - url: https://unpkg.com/@haiku-ui/haiku/dist/cards/haiku-global-config.js
     type: module
 views:
   - title: Overview
@@ -61,15 +72,28 @@ views:
 Note that this will display only as a cog menu in the bottom right - no card will be rendered.
 - `custom:haiku-room-card` adds a "room" card and renders tiles for each entity included in that card's config.
 
-### Alternate Installation
+### Pinning a Version of Haiku
 
-Alternatively, you can download a ZIP archive of the latest [release](https://github.com/lukiffer/haiku/releases) (note you'll download
-the package, not the source files) and copy these to wherever your Home Assistant `www` directory is.
-
-Also note that you'll need to change the paths from the `ui-lovelace.yaml` file example above to not include a `node_modules` directory.
+Haiku is distributed as an [NPM package](https://www.npmjs.com/package/@haiku-ui/haiku) and served via [unpkg.com](https://unpkg.com).
+You can reference any specific version using unpkg's version notation:
 
 
-### Customization
+#### Pin to a Specific Version
+```yaml
+resources:
+  - url: https://unpkg.com/@haiku-ui/haiku@0.1.2/dist/cards/haiku-room-card.js
+    type: module
+```
+
+#### Pin to a Range (Semver)
+
+```yaml
+resources:
+  - url: https://unpkg.com/@haiku-ui/haiku@^0.1.0/dist/cards/haiku-room-card.js
+    type: module
+```
+
+## Customization
 
 Each room card can be configured with these options:
 
@@ -108,16 +132,26 @@ switch.example_light_switch:
 
 ## Developing and Contributing
 
-
 ### Development Setup
 
-You can clone this repository and start developing with a few commands:
+**Note the steps described here only work on Linux, macOS, and Windows Subsystem for Linux.**
+
+Start by configuring your `ui-lovelace.yaml` to point at itself to serve the Haiku files:
+
+```yaml
+resources:
+  - url: /local/haiku/cards/haiku-room-card.js
+    type: module
+  - url: /local/haiku/cards/haiku-global-config.js
+    type: module
+```
+
+Then, clone this repository and start developing with a few commands:
 
 ```bash
 npm install -g gulp
-npm install
+npm ci
 
-export HA_SSH_PORT=22
 export HA_SSH_USER=pi
 export HA_SSH_HOST=example.local
 
@@ -127,8 +161,14 @@ gulp watch
 The `watch` command will watch the `src/**/*` glob pattern, rebuild the package on changes, and call the `deploy.sh` script.
 
 The deployment script makes some assumptions that you have key-based SSH authentication. It also assumes the destination
-directory to be `/home/homeassistant/.homeassistant/www/haiku` You can customize this script as necessary.
+directory to be `/home/homeassistant/.homeassistant/www/haiku`
 
+You can call the `deploy.sh` script with the following arguments to customize these options:
+
+- `--ssh-port` - the port over which SSH (rsync) traffic will occur
+- `--ssh-user` - the username used to connect to the Home Assistant server via SSH
+- `--ssh-host` - the hostname (or IP address) of the Home Assistant server
+- `--haiku-path` - the full path from which Haiku will be served by Home Assistant
 
 ### Contributing
 
