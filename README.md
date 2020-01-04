@@ -26,25 +26,39 @@ Installation will vary slightly depending on your Home Assistant setup. The step
 but if you have a scenario where these instructions don't work, feel free to [open an issue](https://github.com/lukiffer/haiku/issues)
 and we'll either amend these instructions or provide a workaround.
 
-### Enable YAML Configuration Mode
 
-To enable YAML configuration mode, open your `configuration.yaml` in your Home Assistant config directory, and add
-or update the `lovelace:` key:
+### Register Haiku Resources
+
+First, add any components you want to use from Haiku in the `resources` key of the global config. This can either be
+done by editing the `ui-lovelace.yaml` if you're using YAML configuration mode, or clicking the "Edit Raw Config" from
+the context menu if you're using the UI editor.
+
+Add the following `resources` key (or append to the existing one):
 
 ```yaml
-lovelace:
-  mode: yaml
+title: Home Assistant
+resources:
+  # ----- BEGIN HAIKU RESOURCES -----
+  - url: https://unpkg.com/@haiku-ui/haiku/dist/cards/haiku-global-config.js
+    type: module
+  - url: https://unpkg.com/@haiku-ui/haiku/dist/cards/haiku-room-card.js
+    type: module
+  # ----- END HAIKU RESOURCES -----
 ```
-This will tell Home Assistant that you want to use a configuration file (rather than the UI) to configure the front-end.
 
-Note that you'll also need to use a modern web browser (or client) – one compatible the (now-deprecated) `frontend: latest`
-setting. The latest versions of Chrome, Webkit, Firefox, Edge, and Opera all work fine, as well as the latest mobile browsers.
+### Define Your Cards
 
-### Update the Lovelace Configuration
+Again, you can edit the YAML in either an IDE of your choice or in the web editor in the UI.
 
-After making the above change, restarting Home Assistant will create a `ui-lovelace.yaml` file in your configuration
-directory. At the top level of that document, add the `resources` key and any of the resource files you want to use from
-Haiku.
+#### Using the UI Editor
+
+To add a card using the UI editor, click the "+" button (bottom right) and then choose "Manual Card". For type, add
+`'custom:haiku-room-card'` or whatever card you want to add (these are explained in detail below). Add a `name` key
+with the name of the room, and any entities you want to include on the card (their types are automatically detected).
+
+#### Using the YAML Configuration
+
+Alternatively, you can provide the same YAML you provide in the UI editor directly in the `ui-lovelace.yaml` file.
 
 ```yaml
 resources:
@@ -68,9 +82,29 @@ views:
           # etc
 ```
 
-- `custom:haiku-global-config` adds a global cog menu to the UI that allows you to select a theme and set other global settings for Haiku.
+#### Global Config Card
+
+`custom:haiku-global-config` adds a global cog menu to the UI that allows you to select a theme and set other global settings for Haiku.
 Note that this will display only as a cog menu in the bottom right - no card will be rendered.
-- `custom:haiku-room-card` adds a "room" card and renders tiles for each entity included in that card's config.
+
+```yaml
+type: "custom:haiku-global-config"
+```
+
+#### Room Card
+
+`custom:haiku-room-card` adds a "room" card and renders tiles for each entity included in that card's config.
+
+```yaml
+type: "custom:haiku-room-card"
+  name: Master Bedroom
+  entities:
+    - group.lighting_master_bedroom
+    - sensor.lumi_lumiweather_022cc5ba_1_1026
+    - sensor.lumi_lumiweather_022cc5ba_1_1029
+    - fan.ge_12730_fan_control_switch_level
+    # etc
+```
 
 ### Pinning a Version of Haiku
 
