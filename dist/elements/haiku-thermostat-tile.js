@@ -101,10 +101,10 @@ export class HaikuThermostatTile extends HaikuTileBase {
   cursor: pointer; }
   .status-value > * {
     cursor: pointer; }
-  .status-value.cool.on {
+  .status-value.cool {
     border-color: #00c6fb; }
-  .status-value.heat.on {
-    border-color: #ff5858; }
+  .status-value.heat {
+    border-color: #ff6600; }
   .status-value .unit {
     font-size: 15px;
     margin-left: -15px;
@@ -128,10 +128,7 @@ export class HaikuThermostatTile extends HaikuTileBase {
 
   getModeLabel(entity) {
     if (entity.attributes && entity.attributes.hvac_action) {
-      if (entity.attributes.fan_mode === 'on') {
-        return entity.attributes.hvac_action;
-      }
-      return 'Set to';
+      return entity.attributes.hvac_action;
     }
     return 'Unknown';
   }
@@ -145,10 +142,6 @@ export class HaikuThermostatTile extends HaikuTileBase {
       else if (entity.attributes.hvac_action === 'heating') {
         classList.push('heat');
       }
-
-      if (entity.attributes.fan_mode === 'on') {
-        classList.push('on');
-      }
     }
     return classList.join(' ');
   }
@@ -161,6 +154,10 @@ export class HaikuThermostatTile extends HaikuTileBase {
 
       if (entity.attributes.hvac_action === 'heating') {
         return entity.attributes.temperature || entity.attributes.target_temp_low;
+      }
+
+      if (entity.attributes.hvac_action === 'idle') {
+        return entity.attributes.temperature || entity.attributes.current_temperature;
       }
     }
     return 'Off';

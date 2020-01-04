@@ -15,7 +15,6 @@ export class HaikuThermostatTile extends HaikuTileBase {
   }
 
   _render({ entity }) {
-    console.log(entity);
     return html`
       {{ css }}
       <div class="stat-container"
@@ -36,10 +35,7 @@ export class HaikuThermostatTile extends HaikuTileBase {
 
   getModeLabel(entity) {
     if (entity.attributes && entity.attributes.hvac_action) {
-      if (entity.attributes.fan_mode === 'on') {
-        return entity.attributes.hvac_action;
-      }
-      return 'Set to';
+      return entity.attributes.hvac_action;
     }
     return 'Unknown';
   }
@@ -53,10 +49,6 @@ export class HaikuThermostatTile extends HaikuTileBase {
       else if (entity.attributes.hvac_action === 'heating') {
         classList.push('heat');
       }
-
-      if (entity.attributes.fan_mode === 'on') {
-        classList.push('on');
-      }
     }
     return classList.join(' ');
   }
@@ -69,6 +61,10 @@ export class HaikuThermostatTile extends HaikuTileBase {
 
       if (entity.attributes.hvac_action === 'heating') {
         return entity.attributes.temperature || entity.attributes.target_temp_low;
+      }
+
+      if (entity.attributes.hvac_action === 'idle') {
+        return entity.attributes.temperature || entity.attributes.current_temperature;
       }
     }
     return 'Off';
@@ -90,38 +86,6 @@ export class HaikuThermostatTile extends HaikuTileBase {
     }
     return '';
   }
-
-  // getShortValue(entity) {
-  //   if (this._hasUnit(entity)) {
-  //     if (entity.attributes.unit_of_measurement.match(/°/)) {
-  //       return `${ Math.round(entity.state) }°`;
-  //     }
-  //   }
-
-  //   if (isNaN(entity.state)) {
-  //     return entity.state;
-  //   }
-
-  //   return Math.round(entity.state).toString();
-  // }
-
-  // getLongValue(entity) {
-  //   if (this._hasUnit(entity)) {
-  //     return entity.state + entity.attributes.unit_of_measurement;
-  //   }
-  //   return entity.state;
-  // }
-
-  // getUnit(entity) {
-  //   if (this._hasUnit(entity)) {
-  //     return entity.attributes.unit_of_measurement.replace(/°/, '');
-  //   }
-  //   return '';
-  // }
-
-  // _hasUnit(entity) {
-  //   return entity.attributes && entity.attributes.unit_of_measurement;
-  // }
 }
 
 customElements.define('haiku-thermostat-tile', HaikuThermostatTile);
