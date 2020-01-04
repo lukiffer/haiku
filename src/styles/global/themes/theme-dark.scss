@@ -2,16 +2,24 @@ body.haiku-dark {
 
   // Main Background Color
   --primary-background-color: #212121;
+  --material-background-color: var(--primary-background-color);
   background-color: #212121;
 
   // Sidebar
   --sidebar-background-color: #1f1f1f;
   --paper-listbox-background-color: #1f1f1f;
 
+  // Header
+  --app-header-background-color: #000;
+
+  // Cards
+  --card-background-color: #333;
+  --paper-card-background-color: var(--card-background-color);
+
   /* text */
-  --primary-text-color: #777;
-  --secondary-text-color: #444;
-  --text-primary-color: #999;
+  --primary-text-color: #ccc;
+  --secondary-text-color: #777;
+  --text-primary-color: #777;
   --disabled-text-color: #333;
   /* main interface colors */
   --primary-color: #1c1c1c;
@@ -20,20 +28,20 @@ body.haiku-dark {
   // --accent-color: #ff9800;
   // --divider-color: rgba(0, 0, 0, .12);
   /* states and badges */
-  // --state-icon-color: #44739e;
+  --state-icon-color: #ccc;
   // --state-icon-active-color: #FDD835;
   // --state-icon-unavailable-color: var(--disabled-text-color);
   /* background and sidebar */
-  --card-background-color: #333;
+
   // --primary-background-color: #fafafa;
-  // --secondary-background-color: #e5e5e5; /* behind the cards on state */
+  --secondary-background-color: #000;
   /* sidebar menu */
   --sidebar-text-color: #666;
   // --sidebar-background-color: var(--paper-listbox-background-color); /* backward compatible with existing themes */
   --sidebar-icon-color: #999;
-  // --sidebar-selected-text-color: var(--primary-text-color);
-  /* --sidebar-selected-background-color: rgba(30,30,30,0.1); */
-  // --sidebar-selected-icon-color: var(--primary-color);
+  --sidebar-selected-text-color: var(--primary-text-color);
+  --sidebar-selected-background-color: #444;
+  --sidebar-selected-icon-color: var(--primary-text-color);
   /* controls */
   // --toggle-button-color: #bada55;
   /* --toggle-button-unchecked-color: var(--accent-color); */
@@ -75,14 +83,15 @@ body.haiku-dark {
   // --light-secondary-opacity: 0.7;
   // --light-primary-opacity: 1.0;
   /* derived colors, to keep existing themes mostly working */
-  // --paper-card-background-color: var(--card-background-color);
   // --paper-listbox-background-color: var(--card-background-color);
-  // --paper-item-icon-color: var(--state-icon-color);
+  --paper-item-icon-color: var(--state-icon-color);
   // --paper-item-icon-active-color: var(--state-icon-active-color);
   // --table-row-background-color: var(--primary-background-color);
   // --table-row-alternative-background-color: var(--secondary-background-color);
   /* set our toggle style */
   --mdc-theme-secondary: #bada55;
+  --switch-checked-button-color: var(--mdc-theme-secondary);
+  --switch-checked-track-color: #7c8f47;
   /* set our slider style */
   // --paper-slider-knob-color: var(--slider-color);
   // --paper-slider-knob-start-color: var(--slider-color);
