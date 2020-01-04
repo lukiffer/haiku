@@ -11,14 +11,12 @@
     cursor: pointer;
   }
 
-  &.cool.on {
+  &.cool {
     border-color: #00c6fb;
-    // background-image: linear-gradient(to top, #00c6fb 0%, #005bea 100%);
   }
 
-  &.heat.on {
-    border-color: #ff5858;
-    // background-image: linear-gradient(-60deg, #ff5858 0%, #f09819 100%);
+  &.heat {
+    border-color: #ff6600;
   }
 
   & .unit {
