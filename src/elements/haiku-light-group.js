@@ -33,8 +33,8 @@ export class HaikuLightGroup extends LitElement {
               ${ entity.attributes.haiku_label || entity.attributes.friendly_name }
             </span>
           </a>
-          <paper-toggle-button checked="${ entity.state === 'on' }"
-            on-change="${(e) => this.toggleChanged(e)}"></paper-toggle-button>
+          <mwc-switch checked="${ entity.state === 'on' }"
+            on-change="${(e) => this.toggleChanged(e)}"></mwc-switch>
         </span>
         <ul>
           ${_.map(entity.attributes.entity_id, (entityId) => this.renderLightControl(entityId))}

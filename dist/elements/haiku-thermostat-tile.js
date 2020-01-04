@@ -15,7 +15,6 @@ export class HaikuThermostatTile extends HaikuTileBase {
   }
 
   _render({ entity }) {
-    console.log(entity);
     return html`
       <style>.stat-container {
   background: rgba(33, 33, 33, 0.7);
@@ -179,38 +178,6 @@ export class HaikuThermostatTile extends HaikuTileBase {
     }
     return '';
   }
-
-  // getShortValue(entity) {
-  //   if (this._hasUnit(entity)) {
-  //     if (entity.attributes.unit_of_measurement.match(/°/)) {
-  //       return `${ Math.round(entity.state) }°`;
-  //     }
-  //   }
-
-  //   if (isNaN(entity.state)) {
-  //     return entity.state;
-  //   }
-
-  //   return Math.round(entity.state).toString();
-  // }
-
-  // getLongValue(entity) {
-  //   if (this._hasUnit(entity)) {
-  //     return entity.state + entity.attributes.unit_of_measurement;
-  //   }
-  //   return entity.state;
-  // }
-
-  // getUnit(entity) {
-  //   if (this._hasUnit(entity)) {
-  //     return entity.attributes.unit_of_measurement.replace(/°/, '');
-  //   }
-  //   return '';
-  // }
-
-  // _hasUnit(entity) {
-  //   return entity.attributes && entity.attributes.unit_of_measurement;
-  // }
 }
 
 customElements.define('haiku-thermostat-tile', HaikuThermostatTile);

@@ -29,8 +29,8 @@ export class HaikuLightControl extends LitElement {
             ${entity.attributes.haiku_label || entity.attributes.friendly_name}
           </span>
         </span>
-        <paper-toggle-button checked="${entity.state === 'on'}"
-          on-change="${(e) => this.toggleChanged(e)}"></paper-toggle-button>
+        <mwc-switch checked="${entity.state === 'on'}"
+          on-change="${(e) => this.toggleChanged(e)}"></mwc-switch>
       </li>
     `;
   }
