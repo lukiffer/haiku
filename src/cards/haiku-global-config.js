@@ -21,6 +21,7 @@ export class HaikuGlobalConfig extends HTMLElement {
       this.initStylesheet();
       this.initTheme();
       this.initConfigButton();
+      this.initScrollListener();
       this.initialized = true;
     }
   }
@@ -58,6 +59,7 @@ export class HaikuGlobalConfig extends HTMLElement {
   initConfigButton() {
     if (!document.getElementById('haiku_config_button')) {
       const configButton = document.createElement('button');
+      configButton.setAttribute('id', 'haiku_config_button');
       configButton.setAttribute('class', 'haiku-config-button');
       const icon = document.createElement('ha-icon');
       icon.setAttribute('icon', 'mdi:settings');
@@ -69,10 +71,28 @@ export class HaikuGlobalConfig extends HTMLElement {
     }
   }
 
+  initScrollListener() {
+    window.addEventListener('scroll', () => {
+      let position = 'absolute';
+      let top = 88;
+
+      if (window.scrollY >= 64) {
+        position = 'fixed';
+        top = 21;
+      }
+
+      const button = document.getElementById('haiku_config_button');
+      const style = `position:${position};top:${top}px;`;
+
+      if (button && button.getAttribute('style') !== style) {
+        button.setAttribute('style', style);
+      }
+    });
+  }
+
   _openGlobalConfigDialog() {
     const $this = this;
     this.customizationService.openGlobalConfigDialog(() => {
-      console.log('saved...');
       $this.initTheme();
     });
   }

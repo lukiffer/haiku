@@ -85,7 +85,7 @@ views:
 #### Global Config Card
 
 `custom:haiku-global-config` adds a global cog menu to the UI that allows you to select a theme and set other global settings for Haiku.
-Note that this will display only as a cog menu in the bottom right - no card will be rendered.
+Note that this will display only as a cog menu just below the header, to the right - no card will be rendered.
 
 ```yaml
 type: "custom:haiku-global-config"
