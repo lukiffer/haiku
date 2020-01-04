@@ -31,9 +31,7 @@ body.haiku-dark {
   /* opacity for light text on a dark background */
   /* derived colors, to keep existing themes mostly working */
   /* set our toggle style */
-  --paper-toggle-button-checked-ink-color: #bada55;
-  --paper-toggle-button-checked-button-color: #bada55;
-  --paper-toggle-button-checked-bar-color: #292e21;
+  --mdc-theme-secondary: #bada55;
   /* set our slider style */ }
 
 .haiku-config-button {

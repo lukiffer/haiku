@@ -53,8 +53,7 @@ body.haiku-dark {
     When a default paper-style color is used, it needs to be copied
     from paper-styles/color.html to here.
   */
-  // --paper-grey-50: #fafafa; /* default for: --paper-toggle-button-unchecked-button-color */
-  // --paper-grey-200: #eeeeee;  /* for ha-date-picker-style */
+    // --paper-grey-200: #eeeeee;  /* for ha-date-picker-style */
   // --paper-grey-500: #9e9e9e;  /* --label-badge-grey */
   /* for paper-spinner */
   // --google-red-500: #db4437;
@@ -83,11 +82,7 @@ body.haiku-dark {
   // --table-row-background-color: var(--primary-background-color);
   // --table-row-alternative-background-color: var(--secondary-background-color);
   /* set our toggle style */
-  --paper-toggle-button-checked-ink-color: #bada55;
-  --paper-toggle-button-checked-button-color: #bada55;
-  --paper-toggle-button-checked-bar-color: #292e21;
-  // --paper-toggle-button-unchecked-button-color: var(--toggle-button-unchecked-color, var(--paper-grey-50));
-  // --paper-toggle-button-unchecked-bar-color: var(--toggle-button-unchecked-color, #000000);
+  --mdc-theme-secondary: #bada55;
   /* set our slider style */
   // --paper-slider-knob-color: var(--slider-color);
   // --paper-slider-knob-start-color: var(--slider-color);

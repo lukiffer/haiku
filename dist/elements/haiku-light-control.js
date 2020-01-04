@@ -55,10 +55,10 @@ li {
     height: 20px;
     margin-top: -3px; }
 
-paper-toggle-button {
+mwc-switch {
   display: flex;
   flex: 1 0 0;
-  margin-top: -4px;
+  margin-top: 4px;
   margin-right: 12px; }
 </style>
       <li>
@@ -68,8 +68,8 @@ paper-toggle-button {
             ${entity.attributes.haiku_label || entity.attributes.friendly_name}
           </span>
         </span>
-        <paper-toggle-button checked="${entity.state === 'on'}"
-          on-change="${(e) => this.toggleChanged(e)}"></paper-toggle-button>
+        <mwc-switch checked="${entity.state === 'on'}"
+          on-change="${(e) => this.toggleChanged(e)}"></mwc-switch>
       </li>
     `;
   }

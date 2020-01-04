@@ -67,8 +67,9 @@ ul, li {
   .haiku-light-menu > li.haiku-light-menu-placeholder {
     display: flex; }
 
-paper-toggle-button {
-  margin-right: 12px; }
+mwc-switch {
+  margin-right: 12px;
+  margin-top: 15px; }
 </style>
       <ul class$="haiku-light-menu ${ this.collapsed ? 'collapsed' : 'expanded' }">
         <li class="haiku-light-menu-placeholder">
@@ -79,8 +80,8 @@ paper-toggle-button {
             <ha-icon icon$="mdi:${ this.state === 'on' ? 'lightbulb-on' : 'lightbulb' }"></ha-icon>
             Lighting
           </a>
-          <paper-toggle-button checked="${ this.state === 'on' }"
-            on-change="${(e) => this.toggleChanged(e)}"></paper-toggle-button>
+          <mwc-switch checked="${ this.state === 'on' }"
+            on-change="${(e) => this.toggleChanged(e)}"></mwc-switch>
         </li>
         ${ _.map(entities, (entity) => html`<haiku-light-group hass="${hass}" entity="${entity}"></haiku-light-group>`)}
       </ul>
